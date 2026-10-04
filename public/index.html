@@ -41,6 +41,51 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
 .bottom{position:fixed;left:0;right:0;bottom:0;z-index:999;background:rgba(7,19,30,.94);backdrop-filter:blur(14px);border-top:1px solid #223b4b;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}.bottomInner{max-width:840px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.nav{border:0;background:transparent;color:#7f95a5;padding:7px;font-size:10px;font-weight:800}.nav b{display:block;font-size:20px;line-height:1.1}.nav.active{color:#64c5ff}
 .credit{font-size:10px;color:#8093a0;padding:8px 3px}.credit a{color:#a8cfeb}
 @media(max-width:520px){.app{padding-left:9px;padding-right:9px}.hero{min-height:215px}.heroText h1{font-size:26px}.elevBox{height:360px}.elevBox svg{height:64%}.storyTitleBar h1{font-size:22px}.skyPeak{font-size:8px}.routeRow{grid-template-columns:24px 1fr 70px 58px}.catalog{grid-template-columns:1fr 1fr}}
+
+/* Frozen visual direction: match approved demo */
+#story .card{background:transparent;border:0;border-radius:0;overflow:visible}
+#story .modebar,#story #identityStrip,#story .storyTitleBar{display:none!important}
+.storyStage{position:relative;aspect-ratio:16/9;min-height:430px;border-radius:24px;overflow:hidden;background:#17304a center/cover no-repeat;border:1px solid rgba(255,255,255,.16);box-shadow:0 18px 50px rgba(0,0,0,.32)}
+.storyStage:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,24,56,.02) 0%,rgba(0,20,45,.08) 34%,rgba(5,20,28,.18) 48%,rgba(5,18,23,.45) 65%,rgba(4,14,18,.82) 100%);z-index:1}
+.storyStageTop{position:absolute;left:18px;right:18px;top:16px;z-index:6;display:flex;justify-content:space-between;align-items:flex-start}
+.storyStageTitle h1{margin:0;color:#fff;font-size:28px;line-height:1.05;text-shadow:0 2px 6px rgba(0,0,0,.45)}
+.storyStageTitle p{margin:4px 0 0;color:#eef7ff;font-size:12px;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+.storyStageActions{display:flex;gap:8px}.storyStageActions button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.32);background:rgba(8,31,51,.35);backdrop-filter:blur(8px);color:white;font-size:17px}
+.storyStage .skyPeaks{position:absolute;left:0;right:0;top:14%;height:28%;z-index:5}
+.storyStage .skyPeak{font-size:10px;color:#fff;font-weight:750;text-shadow:0 1px 4px rgba(0,0,0,.72)}
+.storyStage .skyPeak:after{height:22px;background:rgba(255,255,255,.88)}
+.storyStage .elevBox{position:absolute;left:2.5%;right:2.5%;bottom:11.5%;height:49%;border:0;border-radius:0;background:none!important;overflow:visible;z-index:4}
+.storyStage .elevBox:before{display:none}
+.storyStage .elevBox svg{position:absolute;inset:0;width:100%;height:100%}
+.storyStage .grid{stroke:rgba(255,255,255,.18)}
+.storyStage .profile{stroke:#fff;stroke-width:4.3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.75))}
+.storyStage .area{opacity:.84}
+.storyStage .guide{stroke:rgba(255,255,255,.58)}
+.storyStage .point{stroke:#35d26f;stroke-width:4}.storyStage .point.peak{stroke:#ffb229}.storyStage .point.end{stroke:#ff4f62}
+.storyStage .label{font-size:18px;fill:#15212a;stroke:none;paint-order:normal;font-weight:850}
+.storyStage .labelSmall{font-size:14px;fill:#263845;stroke:none;paint-order:normal;font-weight:700}
+.storyStage .labelBg{fill:rgba(255,255,255,.95);stroke:rgba(24,37,48,.14);stroke-width:1}
+.storyStage .hiker{font-size:25px;z-index:7}
+.storyStageSegments{position:absolute;left:4%;right:4%;bottom:8.2%;z-index:6}
+.storyStageSegments .segbar{height:4px;margin:0}.storyStageSegments .segtext{margin-top:4px;color:#fff;font-weight:750;text-shadow:0 1px 3px rgba(0,0,0,.8);font-size:10px}
+.storyStageSummary{position:absolute;left:4%;right:4%;bottom:2.1%;height:6.7%;min-height:38px;z-index:7;background:rgba(5,18,27,.72);backdrop-filter:blur(9px);border:1px solid rgba(255,255,255,.20);border-radius:999px;display:grid;grid-template-columns:1fr 1.45fr 1fr;align-items:center;overflow:hidden}
+.storyStageSummary>div{text-align:center;padding:4px 10px;color:white;font-size:10px;border-right:1px solid rgba(255,255,255,.16)}
+.storyStageSummary>div:last-child{border-right:0}.storyStageSummary b{font-size:15px;margin-left:5px}
+#story .storyControls{display:flex;gap:8px;margin:10px 0 0}
+#story .storyControls .primary,#story .storyControls .secondary{flex:1}
+#story .recorder{padding:10px 0 0}
+#story #mapPane{margin-top:10px;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+@media(max-width:650px){
+  .storyStage{aspect-ratio:9/14;min-height:610px;border-radius:20px}
+  .storyStage .skyPeaks{top:16%;height:24%}
+  .storyStage .elevBox{left:1.5%;right:1.5%;bottom:15%;height:45%}
+  .storyStageSegments{bottom:11.4%}
+  .storyStageSummary{left:2.4%;right:2.4%;bottom:3.3%;height:7.3%;border-radius:18px}
+  .storyStageTitle h1{font-size:24px}.storyStageTitle p{font-size:11px}
+  .storyStage .label{font-size:16px}.storyStage .labelSmall{font-size:12px}
+  .storyStageSummary>div{font-size:8px;padding:3px}.storyStageSummary b{font-size:13px;display:block;margin:1px 0 0}
+}
+
 </style>
 </head>
 <body>
@@ -72,19 +117,22 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
   <main id="story" class="view">
     <button class="iconbtn" onclick="showView('home')">‹</button>
     <div class="card">
-      <div id="storyHero" class="storyHero"></div>
-      <div class="storyTitleBar"><div><h1 id="storyTitle"></h1><p id="storyRoute"></p></div></div>
-      <div class="modebar"><button id="mapTab" onclick="setStoryMode('map')">Route map</button><button id="elevTab" class="active" onclick="setStoryMode('elev')">Elevation story</button></div>
-      <div id="identityStrip" class="identityStrip"></div>
-      <div id="mapPane" style="display:none"><div id="map"></div></div>
-      <div id="elevPane">
-        <div class="elevWrap">
-          <div id="elevBox" class="elevBox"><div id="skyPeaks" class="skyPeaks"></div><svg id="elevSvg" viewBox="0 0 1000 420" preserveAspectRatio="none"></svg><div id="hiker" class="hiker">🥾</div></div>
-          <div id="segbar" class="segbar"></div><div id="segtext" class="segtext"></div>
+      <div id="storyStage" class="storyStage">
+        <div class="storyStageTop">
+          <div class="storyStageTitle"><h1 id="storyTitle"></h1><p id="storyRoute"></p></div>
+          <div class="storyStageActions"><button title="Map" onclick="toggleMapFromStory()">⌖</button><button title="More">•••</button></div>
         </div>
-        <div class="summary"><div><small>Total distance</small><b id="sumDist">—</b></div><div><small>Highest point</small><b id="sumHigh">—</b></div><div><small id="sumThirdLabel">Duration</small><b id="sumThird">—</b></div></div>
-        <div style="padding:0 12px 10px"><button class="primary wide" onclick="playStory()">▶ Preview short video</button></div>
+        <div id="skyPeaks" class="skyPeaks"></div>
+        <div id="elevBox" class="elevBox"><svg id="elevSvg" viewBox="0 0 1000 420" preserveAspectRatio="none"></svg><div id="hiker" class="hiker">🥾</div></div>
+        <div class="storyStageSegments"><div id="segbar" class="segbar"></div><div id="segtext" class="segtext"></div></div>
+        <div class="storyStageSummary">
+          <div>Total Distance <b id="sumDist">—</b></div>
+          <div>Highest Point <b id="sumHigh">—</b></div>
+          <div><span id="sumThirdLabel">Duration</span> <b id="sumThird">—</b></div>
+        </div>
       </div>
+      <div class="storyControls"><button class="primary" onclick="playStory()">▶ Preview short video</button><button class="secondary" onclick="toggleMapFromStory()">Route map</button></div>
+      <div id="mapPane" style="display:none"><div id="map"></div></div>
       <div class="recorder">
         <div class="recordbox"><div><b>Lite Record</b><br><span id="recordStatus">Start and finish only · lowest battery use</span></div><button id="recordBtn" class="recordbtn" onclick="toggleRecord()">Start</button></div>
       </div>
@@ -166,26 +214,41 @@ const demos={
 let current=demos.poon, map=null, mapLine=null, recording=false, recordStart=null;
 function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.view===id));window.scrollTo({top:0,behavior:'instant'})}
 function openStory(id){current=demos[id]||demos.poon;renderStory();showView('story')}
-function setStoryMode(mode){document.getElementById('mapPane').style.display=mode==='map'?'block':'none';document.getElementById('elevPane').style.display=mode==='elev'?'block':'none';mapTab.classList.toggle('active',mode==='map');elevTab.classList.toggle('active',mode==='elev');if(mode==='map')setTimeout(renderMap,50)}
+function toggleMapFromStory(){const p=document.getElementById('mapPane');const show=p.style.display==='none'||!p.style.display;p.style.display=show?'block':'none';if(show)setTimeout(renderMap,50)}
 function renderStory(){
- storyTitle.textContent=current.title;storyRoute.textContent=current.route;storyHero.style.backgroundImage='url("'+current.photo+'")';elevBox.style.backgroundImage='url("'+current.photo+'")';
+ storyTitle.textContent=current.title;
+ storyRoute.textContent=current.route;
+ storyStage.style.backgroundImage='url("'+current.photo+'")';
  skyPeaks.innerHTML=(current.skyPeaks||[]).map(p=>'<div class="skyPeak" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.name)+'<br>'+fmt(p.e)+' m<i></i></div>').join('');
- const identities=current.points.filter(p=>p.knownId||p.shape);
- identityStrip.innerHTML=identities.map(p=>'<div class="identityCard">'+mountainSVG(p.shape||"ridge")+'<b>'+esc(p.name)+'</b><small>'+fmt(p.e)+' m</small></div>').join('');
- identityStrip.style.display=(current.skyPeaks&&current.skyPeaks.length)?'none':(identities.length?'flex':'none');
  const pts=current.points, es=pts.map(p=>Number(p.e)||0), min=Math.min(...es),max=Math.max(...es),span=Math.max(1,max-min);
  const xs=pts.map((p,i)=>70+i*(860/(pts.length-1))), ys=es.map(e=>350-(e-min)/span*245);
- let d='M '+xs[0]+' '+ys[0];for(let i=1;i<pts.length;i++){const mid=(xs[i-1]+xs[i])/2;d+=' C '+mid+' '+ys[i-1]+', '+mid+' '+ys[i]+', '+xs[i]+' '+ys[i]}
- let svg='<defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b963f" stop-opacity=".92"/><stop offset="1" stop-color="#183b2c" stop-opacity=".28"/></linearGradient></defs><path class="grid" d="M0 90H1000M0 175H1000M0 260H1000M0 345H1000"/>';
+ let d='M '+xs[0]+' '+ys[0];
+ for(let i=1;i<pts.length;i++){const mid=(xs[i-1]+xs[i])/2;d+=' C '+mid+' '+ys[i-1]+', '+mid+' '+ys[i]+', '+xs[i]+' '+ys[i]}
+ let svg='<defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6cae45" stop-opacity=".90"/><stop offset="1" stop-color="#1d5a3b" stop-opacity=".28"/></linearGradient></defs><path class="grid" d="M0 90H1000M0 175H1000M0 260H1000M0 345H1000"/>';
  svg+='<path class="area" d="'+d+' L '+xs[xs.length-1]+' 420 L '+xs[0]+' 420 Z"/><path class="profile" d="'+d+'"/>';
- pts.forEach((p,i)=>{svg+='<line class="guide" x1="'+xs[i]+'" y1="'+ys[i]+'" x2="'+xs[i]+'" y2="395"/><circle class="point '+(p.peak?'peak ':'')+(p.end?'end':'')+'" cx="'+xs[i]+'" cy="'+ys[i]+'" r="8"/><text class="label" text-anchor="middle" x="'+xs[i]+'" y="'+Math.max(24,ys[i]-22)+'">'+esc(p.name)+'</text><text class="labelSmall" text-anchor="middle" x="'+xs[i]+'" y="'+Math.max(45,ys[i]-2)+'">'+fmt(p.e)+' m</text>'});
+ pts.forEach((p,i)=>{
+   const w=Math.max(88,Math.min(140,p.name.length*9+34));
+   const bx=xs[i]-w/2, by=Math.max(6,ys[i]-54);
+   svg+='<line class="guide" x1="'+xs[i]+'" y1="'+ys[i]+'" x2="'+xs[i]+'" y2="395"/>';
+   svg+='<rect class="labelBg" x="'+bx+'" y="'+by+'" width="'+w+'" height="44" rx="8"/>';
+   svg+='<text class="label" text-anchor="middle" x="'+xs[i]+'" y="'+(by+18)+'">'+esc(p.name)+'</text>';
+   svg+='<text class="labelSmall" text-anchor="middle" x="'+xs[i]+'" y="'+(by+35)+'">'+fmt(p.e)+' m</text>';
+   svg+='<circle class="point '+(p.peak?'peak ':'')+(p.end?'end':'')+'" cx="'+xs[i]+'" cy="'+ys[i]+'" r="8"/>';
+ });
  elevSvg.innerHTML=svg;
- const weights=current.segments||Array(pts.length-1).fill(1);segbar.style.gridTemplateColumns=weights.map(x=>x+'fr').join(' ');segtext.style.gridTemplateColumns=segbar.style.gridTemplateColumns;segbar.innerHTML=weights.map((x,i)=>'<i style="background:'+['#3e92f6','#48c66a','#f2a23b','#b760e7','#ed5f74'][i%5]+'"></i>').join('');segtext.innerHTML=weights.map(x=>'<span>'+x+' '+(current.segmentUnit||'km')+'</span>').join('');
- sumDist.textContent=current.distance?current.distance+' km':'—';sumHigh.textContent=fmt(max)+' m';sumThirdLabel.textContent=current.duration&&/day/i.test(current.duration)?'Total days':'Duration';sumThird.textContent=current.duration||pts.length+' stops';
- current._anim=pts.map((p,i)=>[xs[i]/10,ys[i]/4.2]);
- setStoryMode('elev');
+ const weights=current.segments||Array(pts.length-1).fill(1);
+ segbar.style.gridTemplateColumns=weights.map(x=>x+'fr').join(' ');
+ segtext.style.gridTemplateColumns=segbar.style.gridTemplateColumns;
+ segbar.innerHTML=weights.map((x,i)=>'<i style="background:'+['#3e92f6','#48c66a','#f2a23b','#b760e7','#ed5f74'][i%5]+'"></i>').join('');
+ segtext.innerHTML=weights.map(x=>'<span>'+x+' '+(current.segmentUnit||'km')+'</span>').join('');
+ sumDist.textContent=current.distance?current.distance+' km':'—';
+ sumHigh.textContent=fmt(max)+' m'+(pts.find(p=>p.e===max)?' ('+pts.find(p=>p.e===max).name+')':'');
+ sumThirdLabel.textContent=current.duration&&/day/i.test(current.duration)?'Total Days':'Duration';
+ sumThird.textContent=current.duration||pts.length+' stops';
+ current._anim=pts.map((p,i)=>[xs[i]/10,64+(ys[i]/4.2)*.36]);
+ document.getElementById('mapPane').style.display='none';
 }
-function playStory(){let i=0;const h=document.getElementById('hiker'),pts=current._anim||[];if(!pts.length)return;h.style.left=pts[0][0]+'%';h.style.top=pts[0][1]+'%';const t=setInterval(()=>{i++;if(i>=pts.length){clearInterval(t);return}h.style.left=pts[i][0]+'%';h.style.top=pts[i][1]+'%'},720)}
+function playStory(){let i=0;const h=document.getElementById('hiker'),pts=current._anim||[];if(!pts.length)return;h.style.left=pts[0][0]+'%';h.style.top=pts[0][1]+'%';const t=setInterval(()=>{i++;if(i>=pts.length){clearInterval(t);return}h.style.left=pts[i][0]+'%';h.style.top=pts[i][1]+'%'},760)}
 function renderMap(){
  const el=document.getElementById('map');if(!map){map=L.map(el,{zoomControl:true});L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map)}
  if(mapLine){map.removeLayer(mapLine);mapLine=null}map.eachLayer(l=>{if(l instanceof L.Marker)map.removeLayer(l)});
