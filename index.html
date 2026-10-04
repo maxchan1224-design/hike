@@ -35,6 +35,7 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
 .addrow{width:100%;border:1px dashed #40627a;background:transparent;color:#dceaf3;border-radius:13px;padding:10px;margin-top:4px}.builderActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.notice{font-size:11px;color:#8ea3b2;margin-top:8px}
 .catalog{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.catalog button{border:1px solid #2c4a5e;background:#102536;color:#e9f3f9;border-radius:12px;padding:9px;text-align:left;font-size:11px}.catalog b{display:block;font-size:12px}
 .mountainSearch{position:relative;margin-top:8px}.mountainSearch input{width:100%;background:#08151f;border:1px solid #294354;border-radius:13px;padding:12px 13px;color:white}.suggestions{display:none;position:absolute;z-index:30;left:0;right:0;top:48px;background:#0a1925;border:1px solid #345064;border-radius:14px;overflow:hidden;box-shadow:0 16px 30px rgba(0,0,0,.35);max-height:260px;overflow:auto}.suggestions.show{display:block}.suggestion{display:grid;grid-template-columns:68px 1fr auto;gap:10px;align-items:center;padding:9px;border-bottom:1px solid #1f3443}.suggestion:last-child{border:0}.suggestion button{display:contents;color:inherit}.suggestion .meta{font-size:10px;color:var(--muted)}.silhouette{width:68px;height:40px;display:block}.silhouette path{fill:#dce9f1}.identityStrip{display:flex;gap:8px;overflow:auto;padding:0 12px 12px}.identityCard{min-width:128px;background:#08151f;border:1px solid #263f50;border-radius:13px;padding:8px}.identityCard .silhouette{width:100%;height:45px}.identityCard b{display:block;font-size:11px;margin-top:4px}.identityCard small{color:var(--muted);font-size:9px}.known{font-size:9px;color:#8bdca1;margin-top:2px}
+.routeSuggest{display:none;margin-top:10px;background:#0a1721;border:1px solid #294354;border-radius:15px;padding:10px}.routeSuggest.show{display:block}.routeSuggestTop{display:flex;align-items:center;justify-content:space-between;gap:8px}.routeSuggest h3{font-size:13px;margin:0}.routeSuggest p{font-size:10px;color:var(--muted);margin:3px 0 8px}.routeChips{display:flex;gap:6px;overflow:auto;padding-bottom:2px}.routeChip{white-space:nowrap;border:1px solid #35536a;background:#12283a;color:#e8f3f9;border-radius:999px;padding:7px 9px;font-size:10px}.routeActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.miniPrimary,.miniSecondary{border-radius:11px;padding:9px;font-weight:800}.miniPrimary{border:0;background:#188ef3;color:white}.miniSecondary{border:1px solid #36536a;background:#102536;color:white}
 .bottom{position:fixed;left:0;right:0;bottom:0;z-index:999;background:rgba(7,19,30,.94);backdrop-filter:blur(14px);border-top:1px solid #223b4b;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}.bottomInner{max-width:840px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.nav{border:0;background:transparent;color:#7f95a5;padding:7px;font-size:10px;font-weight:800}.nav b{display:block;font-size:20px;line-height:1.1}.nav.active{color:#64c5ff}
 .credit{font-size:10px;color:#8093a0;padding:8px 3px}.credit a{color:#a8cfeb}
 @media(max-width:520px){.app{padding-left:9px;padding-right:9px}.hero{min-height:215px}.heroText h1{font-size:26px}.storyHero{height:205px}.elevBox{height:255px}.routeRow{grid-template-columns:24px 1fr 70px 58px}.catalog{grid-template-columns:1fr 1fr}}
@@ -98,6 +99,7 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
           <input id="mountainQuery" autocomplete="off" placeholder="Search e.g. Mount Fuji, Lantau Peak…" oninput="searchMountains(this.value)" onfocus="searchMountains(this.value)">
           <div id="mountainSuggestions" class="suggestions"></div>
         </div>
+        <div id="routeSuggest" class="routeSuggest"></div>
         <div class="catalog" id="popularMountains"></div>
         <div class="sectionTitle" style="margin-top:15px"><h2 style="font-size:15px">Route order</h2><span>Elevation optional</span></div>
         <div id="rows"></div>
@@ -120,6 +122,34 @@ const mountainCatalog=[
  {id:'machhapuchhre',name:'Machhapuchhre',aliases:['魚尾峰','Fishtail'],e:6993,lat:28.4958,lng:83.9470,shape:'fishtail'},
  {id:'annapurna-south',name:'Annapurna South',aliases:['安納普爾納南峰'],e:7219,lat:28.5183,lng:83.8060,shape:'sharp'}
 ];
+const routeCatalog={
+ lantau:{
+  title:'Lantau Peak Sunrise Route',
+  mountainId:'lantau',
+  distance:null,
+  points:[
+   {name:'Pak Kung Au',e:340,lat:22.2576,lng:113.9286},
+   {name:'Lantau Peak',e:934,lat:22.246985,lng:113.918281,knownId:'lantau',shape:'ridge'},
+   {name:'Cham Chai Au',e:520,lat:22.2515,lng:113.9112},
+   {name:'Wisdom Path',e:300,lat:22.2542,lng:113.9048},
+   {name:'Ngong Ping',e:430,lat:22.2557,lng:113.9020}
+  ]
+ },
+ poon:{
+  title:'Poon Hill 4-Day Trek',
+  mountainId:'poon',
+  distance:39,
+  points:[
+   {name:'Hile',e:1500},
+   {name:'Ulleri',e:2050},
+   {name:'Ghorepani',e:2853},
+   {name:'Poon Hill',e:3210,knownId:'poon',shape:'ridge',lat:28.4008,lng:83.6905},
+   {name:'Tadapani',e:2630},
+   {name:'Ghandruk',e:1940}
+  ]
+ }
+};
+let selectedMountainId=null;
 const demos={
   poon:{title:'Poon Hill 4-Day Trek',route:'Hile → Ulleri → Ghorepani → Poon Hill → Tadapani → Ghandruk',photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/PanoAnnapurana.JPG?width=1600',distance:39,segments:[5.5,8,16,9],points:[
     {name:'Hile',e:1500},{name:'Ulleri',e:2050},{name:'Ghorepani',e:2853},{name:'Poon Hill',e:3210,peak:true,knownId:'poon',lat:28.4008,lng:83.6905,shape:'ridge'},{name:'Tadapani',e:2630},{name:'Ghandruk',e:1940,end:true}
@@ -158,14 +188,36 @@ function renderMap(){
 }
 function toggleRecord(){recording=!recording;recordBtn.classList.toggle('stop',recording);recordBtn.textContent=recording?'Finish':'Start';if(recording){recordStart=new Date();recordStatus.textContent='Recording start time only · GPS off'}else{const end=new Date();const rec={route:current.title,start:recordStart?.toISOString(),end:end.toISOString()};localStorage.setItem('hike-last-record',JSON.stringify(rec));recordStatus.textContent='Saved · no continuous GPS used'}}
 let rows=[];
-function openCreate(){try{rows=JSON.parse(localStorage.getItem('hike-custom-route'))?.points||[]}catch(e){rows=[]}if(!rows.length)rows=[{name:'Start',e:''},{name:'Peak',e:''},{name:'Finish',e:''}];renderRows();showView('create')}
+function openCreate(){try{rows=JSON.parse(localStorage.getItem('hike-custom-route'))?.points||[]}catch(e){rows=[]}if(!rows.length)rows=[{name:'Start',e:''},{name:'Peak',e:''},{name:'Finish',e:''}];selectedMountainId=null;routeSuggest.classList.remove('show');routeSuggest.innerHTML='';renderRows();showView('create')}
 function renderRows(){const box=document.getElementById('rows');box.innerHTML='';rows.forEach((p,i)=>{const r=document.createElement('div');r.className='routeRow';r.innerHTML='<div class="handle">'+(i+1)+'</div><input value="'+escAttr(p.name)+'" placeholder="Hill / checkpoint"><input value="'+escAttr(p.e)+'" inputmode="numeric" placeholder="m"><button>↑↓</button>';const ins=r.querySelectorAll('input');ins[0].oninput=e=>{p.name=e.target.value;if(p.knownId&&mountainCatalog.find(m=>m.id===p.knownId)?.name!==p.name){delete p.knownId;delete p.shape;delete p.lat;delete p.lng}};ins[1].oninput=e=>p.e=e.target.value;r.querySelector('button').onclick=()=>{if(i>0){[rows[i-1],rows[i]]=[rows[i],rows[i-1]]}else if(rows.length>1){[rows[0],rows[1]]=[rows[1],rows[0]]}renderRows()};box.appendChild(r)})}
 function addRow(){rows.push({name:'',e:''});renderRows()}
 function addKnownMountain(m){
  rows.push({name:m.name,e:m.e,lat:m.lat,lng:m.lng,knownId:m.id,shape:m.shape});
- renderRows();mountainQuery.value='';mountainSuggestions.classList.remove('show');
+ selectedMountainId=m.id;
+ renderRows();renderRouteSuggestion(m.id);mountainQuery.value='';mountainSuggestions.classList.remove('show');
 }
 function quickAdd(name,e){rows.push({name,e});renderRows()}
+function renderRouteSuggestion(id){
+ const route=routeCatalog[id];
+ if(!route){routeSuggest.classList.remove('show');routeSuggest.innerHTML='';return}
+ routeSuggest.innerHTML='<div class="routeSuggestTop"><div><h3>Suggested route</h3><p>'+esc(route.title)+'</p></div><span class="tag">'+route.points.length+' stops</span></div><div class="routeChips">'+route.points.map(p=>'<button class="routeChip" onclick="addSuggestedPoint(\''+id+'\',\''+escAttr(p.name)+'\')">'+esc(p.name)+'</button>').join('')+'</div><div class="routeActions"><button class="miniSecondary" onclick="appendSuggestedRoute(\''+id+'\')">Append route</button><button class="miniPrimary" onclick="useSuggestedRoute(\''+id+'\')">Use full route</button></div>';
+ routeSuggest.classList.add('show');
+}
+function clonePoint(p){return JSON.parse(JSON.stringify(p))}
+function addSuggestedPoint(id,name){
+ const route=routeCatalog[id];if(!route)return;
+ const p=route.points.find(x=>x.name===name);if(!p)return;
+ rows.push(clonePoint(p));renderRows();
+}
+function appendSuggestedRoute(id){
+ const route=routeCatalog[id];if(!route)return;
+ route.points.forEach(p=>{if(!rows.some(r=>r.name===p.name))rows.push(clonePoint(p))});
+ renderRows();
+}
+function useSuggestedRoute(id){
+ const route=routeCatalog[id];if(!route)return;
+ rows=route.points.map(clonePoint);routeName.value=route.title;renderRows();
+}
 function searchMountains(q){
  const s=String(q||'').trim().toLowerCase();
  const matches=mountainCatalog.filter(m=>!s||m.name.toLowerCase().includes(s)||(m.aliases||[]).some(a=>a.toLowerCase().includes(s))).slice(0,6);
