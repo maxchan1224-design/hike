@@ -22,13 +22,15 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
 .trip{display:grid;grid-template-columns:94px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;margin:9px 0}.trip img{width:94px;height:94px;object-fit:cover;border-radius:13px;background:#13222e}.trip h3{margin:2px 0 3px;font-size:16px}.trip p{margin:0 0 8px;color:var(--muted);font-size:12px}.tags{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:10px;background:#132a3a;border-radius:999px;padding:4px 7px;color:#dcecf7}
 .primary{border:0;border-radius:15px;background:#188ef3;color:white;padding:13px 15px;font-weight:850}.secondary{border:1px solid #36536a;border-radius:15px;background:#12283a;color:white;padding:12px 14px;font-weight:800}.wide{width:100%}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;margin-top:12px;overflow:hidden}.cardHead{padding:14px 14px 8px;display:flex;align-items:center;justify-content:space-between}.cardHead h2{font-size:18px;margin:0}.sub{font-size:11px;color:var(--muted)}
-.storyHero{position:relative;height:235px;background-position:center;background-size:cover}.storyHero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.75))}.storyMeta{position:absolute;left:15px;right:15px;bottom:12px;z-index:2}.storyMeta h1{font-size:26px;margin:0 0 4px}.storyMeta p{font-size:12px;margin:0;color:#e3edf3}
+.storyHero{display:none}.storyMeta{display:none}
+.storyTitleBar{display:flex;align-items:flex-start;justify-content:space-between;padding:15px 15px 8px;gap:10px}.storyTitleBar h1{font-size:25px;margin:0;line-height:1.05}.storyTitleBar p{font-size:11px;color:var(--muted);margin:5px 0 0}
 #map{height:330px;background:#102332}.leaflet-container{font-family:inherit}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0d1c29;color:white}.leaflet-control-attribution{font-size:9px}
 .modebar{display:flex;gap:7px;padding:10px 12px}.modebar button{flex:1;border:1px solid #335168;background:#102536;color:#e9f4fa;border-radius:12px;padding:9px;font-size:12px;font-weight:800}.modebar button.active{background:#eaf4fb;color:#10202d}
-.elevWrap{padding:0 12px 11px}.elevBox{position:relative;height:290px;border:1px solid #294354;border-radius:17px;overflow:hidden;background:linear-gradient(#0d1b28,#09141d)}.elevBox svg{width:100%;height:100%}.grid{stroke:#203847;stroke-width:1}.area{fill:url(#areaFill)}.profile{fill:none;stroke:#f0f7fb;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.guide{stroke:#7891a1;stroke-width:1;stroke-dasharray:6 6}.point{fill:#fff;stroke:#44c968;stroke-width:4}.point.peak{stroke:var(--orange)}.point.end{stroke:var(--red)}
-.label{fill:#eef7fb;font-size:20px;font-weight:760}.labelSmall{fill:#a8bac8;font-size:16px}.hiker{position:absolute;font-size:28px;left:6%;top:72%;transform:translate(-50%,-50%);filter:drop-shadow(0 3px 5px #000);z-index:4;transition:left .55s ease,top .55s ease}
+.elevWrap{padding:0 12px 11px}.elevBox{position:relative;height:430px;border:1px solid #294354;border-radius:17px;overflow:hidden;background:#0d1b28 center/cover no-repeat}.elevBox:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,12,18,.05) 0%,rgba(3,12,18,.10) 34%,rgba(4,14,21,.42) 56%,rgba(4,14,21,.82) 100%);z-index:1}.elevBox svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:66%;z-index:2;overflow:visible}.grid{stroke:rgba(220,238,247,.14);stroke-width:1}.area{fill:url(#areaFill)}.profile{fill:none;stroke:#f5fbff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}.guide{stroke:rgba(210,231,242,.62);stroke-width:1;stroke-dasharray:6 6}.point{fill:#fff;stroke:#44c968;stroke-width:4}.point.peak{stroke:var(--orange)}.point.end{stroke:var(--red)}
+.skyPeaks{position:absolute;inset:0 0 auto 0;height:42%;z-index:3;pointer-events:none}.skyPeak{position:absolute;transform:translateX(-50%);text-align:center;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7);font-weight:750;font-size:10px;line-height:1.18;white-space:nowrap}.skyPeak:after{content:"";display:block;width:1px;height:25px;background:rgba(255,255,255,.8);margin:4px auto 0}.skyPeak i{display:block;width:5px;height:5px;background:#fff;border-radius:50%;margin:-1px auto 0}
+.label{fill:#fff;font-size:19px;font-weight:800;paint-order:stroke;stroke:rgba(6,18,26,.88);stroke-width:5px;stroke-linejoin:round}.labelSmall{fill:#eef7fb;font-size:14px;font-weight:650;paint-order:stroke;stroke:rgba(6,18,26,.88);stroke-width:4px;stroke-linejoin:round}.hiker{position:absolute;font-size:28px;left:6%;top:72%;transform:translate(-50%,-50%);filter:drop-shadow(0 3px 5px #000);z-index:5;transition:left .55s ease,top .55s ease}
 .segbar{display:grid;gap:2px;height:5px;margin-top:9px}.segbar i{border-radius:999px}.segtext{display:grid;gap:2px;text-align:center;margin-top:4px;font-size:11px;color:#dbe9f1}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:10px 12px 13px}.summary div{background:#08151f;border:1px solid #21394a;border-radius:13px;padding:9px}.summary small{display:block;color:var(--muted);font-size:9px}.summary b{font-size:15px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:8px 12px 13px;background:rgba(5,16,24,.90);border:1px solid #294354;border-radius:16px;overflow:hidden}.summary div{padding:10px 12px;text-align:center;border-right:1px solid #294354}.summary div:last-child{border-right:0}.summary small{display:block;color:#a9bac6;font-size:9px}.summary b{font-size:15px}
 .recorder{padding:0 12px 14px}.recordbox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#08151f;border:1px solid #263f50;border-radius:15px;padding:11px}.recordbox b{font-size:14px}.recordbox span{font-size:11px;color:var(--muted)}
 .recordbtn{border:0;border-radius:13px;padding:11px 14px;background:#50cf65;color:#07150c;font-weight:900}.recordbtn.stop{background:#ff626a;color:#fff}
 .builder{padding:2px 12px 14px}.routeRow{display:grid;grid-template-columns:28px 1fr 84px 66px;gap:7px;align-items:center;margin:8px 0}.handle{color:#6f8797;text-align:center}.routeRow input{width:100%;background:#08151f;border:1px solid #294354;border-radius:11px;padding:10px;color:white}.routeRow button{border:1px solid #34536a;background:#112738;color:white;border-radius:10px;padding:9px 4px}
@@ -38,7 +40,7 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
 .routeSuggest{display:none;margin-top:10px;background:#0a1721;border:1px solid #294354;border-radius:15px;padding:10px}.routeSuggest.show{display:block}.routeSuggestTop{display:flex;align-items:center;justify-content:space-between;gap:8px}.routeSuggest h3{font-size:13px;margin:0}.routeSuggest p{font-size:10px;color:var(--muted);margin:3px 0 8px}.routeChips{display:flex;gap:6px;overflow:auto;padding-bottom:2px}.routeChip{white-space:nowrap;border:1px solid #35536a;background:#12283a;color:#e8f3f9;border-radius:999px;padding:7px 9px;font-size:10px}.routeActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.miniPrimary,.miniSecondary{border-radius:11px;padding:9px;font-weight:800}.miniPrimary{border:0;background:#188ef3;color:white}.miniSecondary{border:1px solid #36536a;background:#102536;color:white}
 .bottom{position:fixed;left:0;right:0;bottom:0;z-index:999;background:rgba(7,19,30,.94);backdrop-filter:blur(14px);border-top:1px solid #223b4b;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}.bottomInner{max-width:840px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.nav{border:0;background:transparent;color:#7f95a5;padding:7px;font-size:10px;font-weight:800}.nav b{display:block;font-size:20px;line-height:1.1}.nav.active{color:#64c5ff}
 .credit{font-size:10px;color:#8093a0;padding:8px 3px}.credit a{color:#a8cfeb}
-@media(max-width:520px){.app{padding-left:9px;padding-right:9px}.hero{min-height:215px}.heroText h1{font-size:26px}.storyHero{height:205px}.elevBox{height:255px}.routeRow{grid-template-columns:24px 1fr 70px 58px}.catalog{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.app{padding-left:9px;padding-right:9px}.hero{min-height:215px}.heroText h1{font-size:26px}.elevBox{height:360px}.elevBox svg{height:64%}.storyTitleBar h1{font-size:22px}.skyPeak{font-size:8px}.routeRow{grid-template-columns:24px 1fr 70px 58px}.catalog{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -70,16 +72,17 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
   <main id="story" class="view">
     <button class="iconbtn" onclick="showView('home')">‹</button>
     <div class="card">
-      <div id="storyHero" class="storyHero"><div class="storyMeta"><h1 id="storyTitle"></h1><p id="storyRoute"></p></div></div>
+      <div id="storyHero" class="storyHero"></div>
+      <div class="storyTitleBar"><div><h1 id="storyTitle"></h1><p id="storyRoute"></p></div></div>
       <div class="modebar"><button id="mapTab" onclick="setStoryMode('map')">Route map</button><button id="elevTab" class="active" onclick="setStoryMode('elev')">Elevation story</button></div>
       <div id="identityStrip" class="identityStrip"></div>
       <div id="mapPane" style="display:none"><div id="map"></div></div>
       <div id="elevPane">
         <div class="elevWrap">
-          <div class="elevBox"><svg id="elevSvg" viewBox="0 0 1000 420" preserveAspectRatio="none"></svg><div id="hiker" class="hiker">🥾</div></div>
+          <div id="elevBox" class="elevBox"><div id="skyPeaks" class="skyPeaks"></div><svg id="elevSvg" viewBox="0 0 1000 420" preserveAspectRatio="none"></svg><div id="hiker" class="hiker">🥾</div></div>
           <div id="segbar" class="segbar"></div><div id="segtext" class="segtext"></div>
         </div>
-        <div class="summary"><div><small>Total distance</small><b id="sumDist">—</b></div><div><small>Highest point</small><b id="sumHigh">—</b></div><div><small>Stops</small><b id="sumStops">—</b></div></div>
+        <div class="summary"><div><small>Total distance</small><b id="sumDist">—</b></div><div><small>Highest point</small><b id="sumHigh">—</b></div><div><small id="sumThirdLabel">Duration</small><b id="sumThird">—</b></div></div>
         <div style="padding:0 12px 10px"><button class="primary wide" onclick="playStory()">▶ Preview short video</button></div>
       </div>
       <div class="recorder">
@@ -151,10 +154,12 @@ const routeCatalog={
 };
 let selectedMountainId=null;
 const demos={
-  poon:{title:'Poon Hill 4-Day Trek',route:'Hile → Ulleri → Ghorepani → Poon Hill → Tadapani → Ghandruk',photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/PanoAnnapurana.JPG?width=1600',distance:39,segments:[5.5,8,16,9],points:[
+  poon:{title:'Poon Hill 4-Day Trek',route:'Hile → Ulleri → Ghorepani → Poon Hill → Tadapani → Ghandruk',photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/PanoAnnapurana.JPG?width=1600',distance:39,duration:'4 Days',segments:[5.5,8,16,9],skyPeaks:[
+    {name:'Annapurna South',e:7219,x:18,y:21},{name:'Annapurna I',e:8091,x:36,y:12},{name:'Machhapuchhre',e:6993,x:58,y:18},{name:'Annapurna III',e:7555,x:76,y:13},{name:'Gangapurna',e:7455,x:91,y:20}
+  ],points:[
     {name:'Hile',e:1500},{name:'Ulleri',e:2050},{name:'Ghorepani',e:2853},{name:'Poon Hill',e:3210,peak:true,knownId:'poon',lat:28.4008,lng:83.6905,shape:'ridge'},{name:'Tadapani',e:2630},{name:'Ghandruk',e:1940,end:true}
   ]},
-  lantau:{title:'Lantau Peak Sunrise Hike',route:'Pak Kung Au → Lantau Peak → Cham Chai Au → Wisdom Path → Ngong Ping',photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Lantau%20Peak%20Summit.jpg?width=1600',distance:null,segments:[100,15,60,15],segmentUnit:'min',points:[
+  lantau:{title:'Lantau Peak Sunrise Hike',route:'Pak Kung Au → Lantau Peak → Cham Chai Au → Wisdom Path → Ngong Ping',photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Lantau%20Peak%20Summit.jpg?width=1600',distance:null,duration:'190 min',segments:[100,15,60,15],segmentUnit:'min',skyPeaks:[],points:[
     {name:'Pak Kung Au',e:340},{name:'Lantau Peak',e:934,peak:true,knownId:'lantau',lat:22.246985,lng:113.918281,shape:'ridge'},{name:'Cham Chai Au',e:520},{name:'Wisdom Path',e:300},{name:'Ngong Ping',e:430,end:true}
   ],coords:[[22.2576,113.9286],[22.246985,113.918281],[22.2515,113.9112],[22.2542,113.9048],[22.2557,113.9020]]}
 };
@@ -163,10 +168,11 @@ function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.
 function openStory(id){current=demos[id]||demos.poon;renderStory();showView('story')}
 function setStoryMode(mode){document.getElementById('mapPane').style.display=mode==='map'?'block':'none';document.getElementById('elevPane').style.display=mode==='elev'?'block':'none';mapTab.classList.toggle('active',mode==='map');elevTab.classList.toggle('active',mode==='elev');if(mode==='map')setTimeout(renderMap,50)}
 function renderStory(){
- storyTitle.textContent=current.title;storyRoute.textContent=current.route;storyHero.style.backgroundImage='linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.38)),url("'+current.photo+'")';
+ storyTitle.textContent=current.title;storyRoute.textContent=current.route;storyHero.style.backgroundImage='url("'+current.photo+'")';elevBox.style.backgroundImage='url("'+current.photo+'")';
+ skyPeaks.innerHTML=(current.skyPeaks||[]).map(p=>'<div class="skyPeak" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.name)+'<br>'+fmt(p.e)+' m<i></i></div>').join('');
  const identities=current.points.filter(p=>p.knownId||p.shape);
  identityStrip.innerHTML=identities.map(p=>'<div class="identityCard">'+mountainSVG(p.shape||"ridge")+'<b>'+esc(p.name)+'</b><small>'+fmt(p.e)+' m</small></div>').join('');
- identityStrip.style.display=identities.length?'flex':'none';
+ identityStrip.style.display=(current.skyPeaks&&current.skyPeaks.length)?'none':(identities.length?'flex':'none');
  const pts=current.points, es=pts.map(p=>Number(p.e)||0), min=Math.min(...es),max=Math.max(...es),span=Math.max(1,max-min);
  const xs=pts.map((p,i)=>70+i*(860/(pts.length-1))), ys=es.map(e=>350-(e-min)/span*245);
  let d='M '+xs[0]+' '+ys[0];for(let i=1;i<pts.length;i++){const mid=(xs[i-1]+xs[i])/2;d+=' C '+mid+' '+ys[i-1]+', '+mid+' '+ys[i]+', '+xs[i]+' '+ys[i]}
@@ -175,7 +181,7 @@ function renderStory(){
  pts.forEach((p,i)=>{svg+='<line class="guide" x1="'+xs[i]+'" y1="'+ys[i]+'" x2="'+xs[i]+'" y2="395"/><circle class="point '+(p.peak?'peak ':'')+(p.end?'end':'')+'" cx="'+xs[i]+'" cy="'+ys[i]+'" r="8"/><text class="label" text-anchor="middle" x="'+xs[i]+'" y="'+Math.max(24,ys[i]-22)+'">'+esc(p.name)+'</text><text class="labelSmall" text-anchor="middle" x="'+xs[i]+'" y="'+Math.max(45,ys[i]-2)+'">'+fmt(p.e)+' m</text>'});
  elevSvg.innerHTML=svg;
  const weights=current.segments||Array(pts.length-1).fill(1);segbar.style.gridTemplateColumns=weights.map(x=>x+'fr').join(' ');segtext.style.gridTemplateColumns=segbar.style.gridTemplateColumns;segbar.innerHTML=weights.map((x,i)=>'<i style="background:'+['#3e92f6','#48c66a','#f2a23b','#b760e7','#ed5f74'][i%5]+'"></i>').join('');segtext.innerHTML=weights.map(x=>'<span>'+x+' '+(current.segmentUnit||'km')+'</span>').join('');
- sumDist.textContent=current.distance?current.distance+' km':'—';sumHigh.textContent=fmt(max)+' m';sumStops.textContent=pts.length;
+ sumDist.textContent=current.distance?current.distance+' km':'—';sumHigh.textContent=fmt(max)+' m';sumThirdLabel.textContent=current.duration&&/day/i.test(current.duration)?'Total days':'Duration';sumThird.textContent=current.duration||pts.length+' stops';
  current._anim=pts.map((p,i)=>[xs[i]/10,ys[i]/4.2]);
  setStoryMode('elev');
 }
@@ -238,7 +244,7 @@ function mountainSVG(shape){
  return '<svg class="silhouette" viewBox="0 0 82 42" aria-hidden="true">'+(paths[shape]||paths.ridge)+'</svg>';
 }
 function saveRoute(){const data={title:routeName.value||'My Hike',points:rows};localStorage.setItem('hike-custom-route',JSON.stringify(data));alert('Route saved on this device.')}
-function previewCustom(){const clean=rows.filter(p=>p.name.trim());if(clean.length<2){alert('Add at least two checkpoints.');return}const es=clean.map(p=>Number(p.e)||0);current={title:routeName.value||'My Hike',route:clean.map(p=>p.name).join(' → '),photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Lantau%20Peak%2C%20Hongkong.jpg?width=1600',points:clean.map((p,i)=>({...p,e:Number(p.e)||0,peak:Number(p.e)===Math.max(...es),end:i===clean.length-1})),segments:Array(clean.length-1).fill(1)};
+function previewCustom(){const clean=rows.filter(p=>p.name.trim());if(clean.length<2){alert('Add at least two checkpoints.');return}const es=clean.map(p=>Number(p.e)||0);current={title:routeName.value||'My Hike',route:clean.map(p=>p.name).join(' → '),photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Lantau%20Peak%2C%20Hongkong.jpg?width=1600',duration:'1 Day',skyPeaks:[],points:clean.map((p,i)=>({...p,e:Number(p.e)||0,peak:Number(p.e)===Math.max(...es),end:i===clean.length-1})),segments:Array(clean.length-1).fill(1)};
  const coordPts=current.points.filter(p=>Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lng)));
  if(coordPts.length===current.points.length) current.coords=current.points.map(p=>[Number(p.lat),Number(p.lng)]);renderStory();showView('story')}
 function esc(s){return String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}function escAttr(s){return esc(s).replace(/"/g,'&quot;')}function fmt(n){return Number(n||0).toLocaleString('en-US')}
