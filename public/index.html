@@ -11,7 +11,7 @@
 <style>
 :root{--bg:#07131e;--panel:#0c1b28;--panel2:#102333;--ink:#f6fafc;--muted:#9fb0bf;--line:#294354;--blue:#48a0ff;--green:#5cd46b;--orange:#ffad37;--red:#ff5b64;--purple:#b968f0}
 *{box-sizing:border-box}html,body{margin:0;background:linear-gradient(#07131e,#0b1b28);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang HK","Noto Sans TC",sans-serif}
-button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(safe-area-inset-top) 12px calc(90px + env(safe-area-inset-bottom))}
+button,input,select{font:inherit}.app{max-width:1180px;margin:auto;padding:env(safe-area-inset-top) 12px calc(90px + env(safe-area-inset-bottom))}
 .top{height:58px;display:flex;align-items:center;justify-content:space-between}.brand{font-size:24px;font-weight:900}.ghost{border:1px solid #345064;background:#102334;color:#fff;border-radius:999px;padding:8px 12px}.iconbtn{border:0;background:#132a3c;color:#fff;border-radius:50%;width:38px;height:38px;font-size:20px}
 .view{display:none}.view.active{display:block}
 .hero{position:relative;overflow:hidden;border-radius:24px;min-height:250px;border:1px solid #294657;background:#0b1823 center/cover no-repeat;box-shadow:0 16px 40px rgba(0,0,0,.24)}
@@ -42,50 +42,63 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
 .credit{font-size:10px;color:#8093a0;padding:8px 3px}.credit a{color:#a8cfeb}
 @media(max-width:520px){.app{padding-left:9px;padding-right:9px}.hero{min-height:215px}.heroText h1{font-size:26px}.elevBox{height:360px}.elevBox svg{height:64%}.storyTitleBar h1{font-size:22px}.skyPeak{font-size:8px}.routeRow{grid-template-columns:24px 1fr 70px 58px}.catalog{grid-template-columns:1fr 1fr}}
 
-/* Frozen visual direction: match approved demo */
-#story .card{background:transparent;border:0;border-radius:0;overflow:visible}
-#story .modebar,#story #identityStrip,#story .storyTitleBar{display:none!important}
-.storyStage{position:relative;aspect-ratio:16/9;min-height:430px;border-radius:24px;overflow:hidden;background:#17304a center/cover no-repeat;border:1px solid rgba(255,255,255,.16);box-shadow:0 18px 50px rgba(0,0,0,.32)}
-.storyStage:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,24,56,.02) 0%,rgba(0,20,45,.08) 34%,rgba(5,20,28,.18) 48%,rgba(5,18,23,.45) 65%,rgba(4,14,18,.82) 100%);z-index:1}
-.storyStageTop{position:absolute;left:18px;right:18px;top:16px;z-index:6;display:flex;justify-content:space-between;align-items:flex-start}
-.storyStageTitle h1{margin:0;color:#fff;font-size:28px;line-height:1.05;text-shadow:0 2px 6px rgba(0,0,0,.45)}
-.storyStageTitle p{margin:4px 0 0;color:#eef7ff;font-size:12px;text-shadow:0 1px 4px rgba(0,0,0,.55)}
-.storyStageActions{display:flex;gap:8px}.storyStageActions button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.32);background:rgba(8,31,51,.35);backdrop-filter:blur(8px);color:white;font-size:17px}
-.storyStage .skyPeaks{position:absolute;left:0;right:0;top:14%;height:28%;z-index:5}
-.storyStage .skyPeak{font-size:10px;color:#fff;font-weight:750;text-shadow:0 1px 4px rgba(0,0,0,.72)}
-.storyStage .skyPeak:after{height:22px;background:rgba(255,255,255,.88)}
-.storyStage .elevBox{position:absolute;left:2.5%;right:2.5%;bottom:11.5%;height:49%;border:0;border-radius:0;background:none!important;overflow:visible;z-index:4}
+/* Frozen visual direction: approved reference */
+#story{max-width:1120px;margin:0 auto}
+#story>.iconbtn{margin:4px 0 8px}
+#story .card{background:transparent;border:0;border-radius:0;overflow:visible;margin:0}
+.storyStage{position:relative;width:100%;aspect-ratio:1.78/1;min-height:0;border-radius:28px;overflow:hidden;background:#31587d center/cover no-repeat;border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 55px rgba(0,0,0,.34)}
+.storyStage:before{content:"";position:absolute;inset:0;z-index:1;background:
+ linear-gradient(180deg,rgba(0,55,110,.03) 0%,rgba(0,38,72,.02) 34%,rgba(0,20,36,.12) 51%,rgba(3,17,25,.34) 65%,rgba(3,14,20,.67) 84%,rgba(2,11,17,.84) 100%)}
+.storyStageTop{position:absolute;left:5.8%;right:4.5%;top:5.3%;z-index:8;display:flex;justify-content:space-between;align-items:flex-start}
+.storyStageTitle h1{margin:0;color:#fff;font-size:clamp(24px,3vw,42px);line-height:1;font-weight:820;letter-spacing:-.03em;text-shadow:0 2px 8px rgba(0,0,0,.42)}
+.storyStageTitle p{margin:7px 0 0;color:#f3f8fc;font-size:clamp(12px,1.25vw,19px);font-weight:520;text-shadow:0 2px 5px rgba(0,0,0,.48)}
+.storyStageActions{display:flex;gap:9px}.storyStageActions button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(35,88,132,.38);backdrop-filter:blur(8px);color:#fff;font-size:17px}
+.storyStage .skyPeaks{position:absolute;left:5%;right:3%;top:13%;height:27%;z-index:7;pointer-events:none}
+.storyStage .skyPeak{position:absolute;transform:translateX(-50%);text-align:center;color:#fff;font-weight:680;font-size:clamp(9px,.95vw,14px);line-height:1.18;white-space:nowrap;text-shadow:0 2px 5px rgba(0,0,0,.58)}
+.storyStage .skyPeak:after{content:"";display:block;width:2px;height:25px;background:rgba(255,255,255,.88);margin:5px auto 0}
+.storyStage .skyPeak i{display:block;width:7px;height:7px;background:#fff;border-radius:50%;margin:-1px auto 0;box-shadow:0 1px 3px rgba(0,0,0,.45)}
+.elevAxis{position:absolute;left:2.3%;bottom:21.2%;height:35%;width:7%;z-index:7;color:#fff;font-size:clamp(9px,.95vw,14px);font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.elevAxis .axisTitle{position:absolute;top:-22px;left:0;white-space:nowrap;font-size:clamp(10px,1vw,15px)}
+.elevAxis .axisLine{position:absolute;left:38px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.82)}
+.elevAxis .tick{position:absolute;left:0;width:44px;text-align:right;transform:translateY(50%);padding-right:8px}
+.elevAxis .tick:after{content:"";position:absolute;right:-8px;top:50%;width:10px;height:1px;background:rgba(255,255,255,.75)}
+.storyStage .elevBox{position:absolute;left:7%;right:3.7%;bottom:19.5%;height:37%;border:0;border-radius:0;background:none!important;overflow:visible;z-index:5}
 .storyStage .elevBox:before{display:none}
-.storyStage .elevBox svg{position:absolute;inset:0;width:100%;height:100%}
-.storyStage .grid{stroke:rgba(255,255,255,.18)}
-.storyStage .profile{stroke:#fff;stroke-width:4.3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.75))}
-.storyStage .area{opacity:.84}
-.storyStage .guide{stroke:rgba(255,255,255,.58)}
-.storyStage .point{stroke:#35d26f;stroke-width:4}.storyStage .point.peak{stroke:#ffb229}.storyStage .point.end{stroke:#ff4f62}
-.storyStage .label{font-size:18px;fill:#15212a;stroke:none;paint-order:normal;font-weight:850}
-.storyStage .labelSmall{font-size:14px;fill:#263845;stroke:none;paint-order:normal;font-weight:700}
-.storyStage .labelBg{fill:rgba(255,255,255,.95);stroke:rgba(24,37,48,.14);stroke-width:1}
-.storyStage .hiker{font-size:25px;z-index:7}
-.storyStageSegments{position:absolute;left:4%;right:4%;bottom:8.2%;z-index:6}
-.storyStageSegments .segbar{height:4px;margin:0}.storyStageSegments .segtext{margin-top:4px;color:#fff;font-weight:750;text-shadow:0 1px 3px rgba(0,0,0,.8);font-size:10px}
-.storyStageSummary{position:absolute;left:4%;right:4%;bottom:2.1%;height:6.7%;min-height:38px;z-index:7;background:rgba(5,18,27,.72);backdrop-filter:blur(9px);border:1px solid rgba(255,255,255,.20);border-radius:999px;display:grid;grid-template-columns:1fr 1.45fr 1fr;align-items:center;overflow:hidden}
-.storyStageSummary>div{text-align:center;padding:4px 10px;color:white;font-size:10px;border-right:1px solid rgba(255,255,255,.16)}
-.storyStageSummary>div:last-child{border-right:0}.storyStageSummary b{font-size:15px;margin-left:5px}
-#story .storyControls{display:flex;gap:8px;margin:10px 0 0}
-#story .storyControls .primary,#story .storyControls .secondary{flex:1}
+.storyStage .elevBox svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.storyStage .grid{display:none}
+.storyStage .area{opacity:.78;filter:saturate(.88)}
+.storyStage .profile{stroke:#fff;stroke-width:4.3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.78))}
+.storyStage .guide{stroke:rgba(255,255,255,.68);stroke-width:1.4;stroke-dasharray:5 5}
+.storyStage .point{fill:#fff;stroke:#31d26b;stroke-width:4}.storyStage .point.peak{stroke:#ffbd2f}.storyStage .point.end{stroke:#ff4557}
+.storyStage .labelBg{fill:rgba(255,255,255,.96);stroke:rgba(23,43,57,.12);stroke-width:1;filter:drop-shadow(0 2px 5px rgba(0,0,0,.26))}
+.storyStage .label{font-size:18px;fill:#162631;stroke:none;paint-order:normal;font-weight:820}.storyStage .labelSmall{font-size:14px;fill:#213844;stroke:none;paint-order:normal;font-weight:670}
+.storyStage .hiker{font-size:clamp(20px,2.2vw,31px);z-index:9;filter:drop-shadow(0 2px 4px rgba(0,0,0,.78))}
+.storyStageSegments{position:absolute;left:6.8%;right:5.1%;bottom:15.6%;z-index:7}
+.storyStageSegments .segbar{height:5px;margin:0;gap:4px}.storyStageSegments .segbar i{border-radius:8px}
+.storyStageSegments .segtext{margin-top:5px;color:#fff;font-weight:720;text-shadow:0 2px 4px rgba(0,0,0,.8);font-size:clamp(9px,1vw,14px)}
+.storyStageSummary{position:absolute;left:5%;right:5%;bottom:4.7%;height:8.2%;min-height:48px;z-index:8;background:rgba(2,15,24,.83);backdrop-filter:blur(11px);border:1px solid rgba(255,255,255,.23);border-radius:999px;display:grid;grid-template-columns:.86fr 1.38fr .86fr;align-items:center;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.23)}
+.storyStageSummary>div{height:100%;display:flex;align-items:center;justify-content:center;gap:11px;color:#fff;font-size:clamp(10px,1.12vw,16px);border-right:1px solid rgba(255,255,255,.15)}
+.storyStageSummary>div:last-child{border-right:0}.storyStageSummary .sumIcon{font-size:clamp(20px,2.5vw,34px)}.storyStageSummary b{font-size:clamp(15px,1.7vw,24px);font-weight:780}.storyStageSummary .smallLabel{opacity:.92}
+#story .storyControls{display:flex;gap:8px;justify-content:flex-end;margin:10px 0 0}
+#story .storyControls button{flex:0 0 auto;padding:9px 13px;font-size:12px;border-radius:12px}
 #story .recorder{padding:10px 0 0}
 #story #mapPane{margin-top:10px;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
 @media(max-width:650px){
-  .storyStage{aspect-ratio:9/14;min-height:610px;border-radius:20px}
-  .storyStage .skyPeaks{top:16%;height:24%}
-  .storyStage .elevBox{left:1.5%;right:1.5%;bottom:15%;height:45%}
-  .storyStageSegments{bottom:11.4%}
-  .storyStageSummary{left:2.4%;right:2.4%;bottom:3.3%;height:7.3%;border-radius:18px}
-  .storyStageTitle h1{font-size:24px}.storyStageTitle p{font-size:11px}
-  .storyStage .label{font-size:16px}.storyStage .labelSmall{font-size:12px}
-  .storyStageSummary>div{font-size:8px;padding:3px}.storyStageSummary b{font-size:13px;display:block;margin:1px 0 0}
+  #story{width:100%}
+  .storyStage{aspect-ratio:1.62/1;border-radius:18px}
+  .storyStageTop{left:4%;right:3%;top:4%}
+  .storyStageTitle h1{font-size:18px}.storyStageTitle p{font-size:9px;margin-top:3px}
+  .storyStageActions button{width:30px;height:30px;font-size:13px}
+  .storyStage .skyPeaks{left:5%;right:2%;top:13%;height:25%}
+  .storyStage .skyPeak{font-size:6.8px}.storyStage .skyPeak:after{height:13px;width:1px}.storyStage .skyPeak i{width:4px;height:4px}
+  .elevAxis{left:.8%;bottom:22%;height:34%;font-size:6.5px}.elevAxis .axisTitle{font-size:7px;top:-13px}.elevAxis .axisLine{left:25px}.elevAxis .tick{width:28px;padding-right:5px}.elevAxis .tick:after{right:-6px;width:7px}
+  .storyStage .elevBox{left:8%;right:2.3%;bottom:20.5%;height:35%}
+  .storyStage .label{font-size:11px}.storyStage .labelSmall{font-size:8.8px}.storyStage .labelBg{rx:6}
+  .storyStageSegments{left:7.5%;right:3%;bottom:16.4%}.storyStageSegments .segbar{height:3px;gap:2px}.storyStageSegments .segtext{font-size:7.5px;margin-top:3px}
+  .storyStageSummary{left:3%;right:3%;bottom:4.3%;height:8.8%;min-height:35px}
+  .storyStageSummary>div{gap:4px;font-size:7px}.storyStageSummary .sumIcon{font-size:14px}.storyStageSummary b{font-size:10px}.storyStageSummary .smallLabel{display:none}
+  #story .storyControls{margin-top:7px}
 }
-
 </style>
 </head>
 <body>
@@ -93,7 +106,7 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
   <header class="top"><div class="brand">Hike</div><button class="ghost" onclick="openCreate()">＋ New route</button></header>
 
   <main id="home" class="view active">
-    <div class="hero" style="background-image:url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Morning%20panoramic%20view%20from%20Poonhill.jpg?width=1600')">
+    <div class="hero" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Morning_panoramic_view_from_Poonhill.jpg/1280px-Morning_panoramic_view_from_Poonhill.jpg')">
       <div class="heroText"><h1>Remember the mountain,<br>not just the numbers.</h1><p>Build a route, record lightly, then turn the hike into a visual elevation story.</p></div>
     </div>
     <div class="quick">
@@ -103,7 +116,7 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
     </div>
     <div class="sectionTitle"><h2>Demo routes</h2><span>Tap to preview</span></div>
     <div class="trip" onclick="openStory('poon')">
-      <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/PanoAnnapurana.JPG?width=500" alt="">
+      <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Morning_panoramic_view_from_Poonhill.jpg/1280px-Morning_panoramic_view_from_Poonhill.jpg" alt="">
       <div><h3>Poon Hill 4-Day Trek</h3><p>Hile → Ulleri → Ghorepani → Poon Hill → Tadapani → Ghandruk</p><div class="tags"><span class="tag">39 km</span><span class="tag">3,210 m</span><span class="tag">4 days</span></div></div>
     </div>
     <div class="trip" onclick="openStory('lantau')">
@@ -123,12 +136,13 @@ button,input,select{font:inherit}.app{max-width:840px;margin:auto;padding:env(sa
           <div class="storyStageActions"><button title="Map" onclick="toggleMapFromStory()">⌖</button><button title="More">•••</button></div>
         </div>
         <div id="skyPeaks" class="skyPeaks"></div>
+        <div class="elevAxis"><div class="axisTitle">Elevation (m)</div><div class="axisLine"></div><div class="tick" style="bottom:100%">4,000</div><div class="tick" style="bottom:75%">3,000</div><div class="tick" style="bottom:50%">2,000</div><div class="tick" style="bottom:25%">1,000</div><div class="tick" style="bottom:0%">0</div></div>
         <div id="elevBox" class="elevBox"><svg id="elevSvg" viewBox="0 0 1000 420" preserveAspectRatio="none"></svg><div id="hiker" class="hiker">🥾</div></div>
         <div class="storyStageSegments"><div id="segbar" class="segbar"></div><div id="segtext" class="segtext"></div></div>
         <div class="storyStageSummary">
-          <div>Total Distance <b id="sumDist">—</b></div>
-          <div>Highest Point <b id="sumHigh">—</b></div>
-          <div><span id="sumThirdLabel">Duration</span> <b id="sumThird">—</b></div>
+          <div><span class="sumIcon">🥾</span><b id="sumDist">—</b></div>
+          <div><span class="sumIcon">⛰</span><span class="smallLabel">Highest Point</span><b id="sumHigh">—</b></div>
+          <div><span class="sumIcon">▣</span><span id="sumThirdLabel" class="smallLabel">Total Days</span><b id="sumThird">—</b></div>
         </div>
       </div>
       <div class="storyControls"><button class="primary" onclick="playStory()">▶ Preview short video</button><button class="secondary" onclick="toggleMapFromStory()">Route map</button></div>
@@ -202,8 +216,8 @@ const routeCatalog={
 };
 let selectedMountainId=null;
 const demos={
-  poon:{title:'Poon Hill 4-Day Trek',route:'Hile → Ulleri → Ghorepani → Poon Hill → Tadapani → Ghandruk',photo:'https://commons.wikimedia.org/wiki/Special:Redirect/file/PanoAnnapurana.JPG?width=1600',distance:39,duration:'4 Days',segments:[5.5,8,16,9],skyPeaks:[
-    {name:'Annapurna South',e:7219,x:18,y:21},{name:'Annapurna I',e:8091,x:36,y:12},{name:'Machhapuchhre',e:6993,x:58,y:18},{name:'Annapurna III',e:7555,x:76,y:13},{name:'Gangapurna',e:7455,x:91,y:20}
+  poon:{title:'Poon Hill 4-Day Trek',route:'Hile → Ulleri → Ghorepani → Poon Hill → Tadapani → Ghandruk',photo:'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Morning_panoramic_view_from_Poonhill.jpg/1280px-Morning_panoramic_view_from_Poonhill.jpg',date:'10–13 Oct 2026',distance:39,duration:'4 Days',segments:[5.5,8,16,9],skyPeaks:[
+    {name:'Dhaulagiri I',e:8167,x:10,y:28},{name:'Nilgiri Himal',e:7061,x:31,y:20},{name:'Annapurna I',e:8091,x:63,y:15},{name:'Annapurna South',e:7219,x:82,y:11},{name:'Hiunchuli',e:6441,x:93,y:24}
   ],points:[
     {name:'Hile',e:1500},{name:'Ulleri',e:2050},{name:'Ghorepani',e:2853},{name:'Poon Hill',e:3210,peak:true,knownId:'poon',lat:28.4008,lng:83.6905,shape:'ridge'},{name:'Tadapani',e:2630},{name:'Ghandruk',e:1940,end:true}
   ]},
@@ -217,7 +231,7 @@ function openStory(id){current=demos[id]||demos.poon;renderStory();showView('sto
 function toggleMapFromStory(){const p=document.getElementById('mapPane');const show=p.style.display==='none'||!p.style.display;p.style.display=show?'block':'none';if(show)setTimeout(renderMap,50)}
 function renderStory(){
  storyTitle.textContent=current.title;
- storyRoute.textContent=current.route;
+ storyRoute.textContent=current.date||'';
  storyStage.style.backgroundImage='url("'+current.photo+'")';
  skyPeaks.innerHTML=(current.skyPeaks||[]).map(p=>'<div class="skyPeak" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.name)+'<br>'+fmt(p.e)+' m<i></i></div>').join('');
  const pts=current.points, es=pts.map(p=>Number(p.e)||0), min=Math.min(...es),max=Math.max(...es),span=Math.max(1,max-min);
@@ -228,7 +242,7 @@ function renderStory(){
  svg+='<path class="area" d="'+d+' L '+xs[xs.length-1]+' 420 L '+xs[0]+' 420 Z"/><path class="profile" d="'+d+'"/>';
  pts.forEach((p,i)=>{
    const w=Math.max(88,Math.min(140,p.name.length*9+34));
-   const bx=xs[i]-w/2, by=Math.max(6,ys[i]-54);
+   const bx=xs[i]-w/2, by=Math.max(6,ys[i]-(i%2===0?58:66));
    svg+='<line class="guide" x1="'+xs[i]+'" y1="'+ys[i]+'" x2="'+xs[i]+'" y2="395"/>';
    svg+='<rect class="labelBg" x="'+bx+'" y="'+by+'" width="'+w+'" height="44" rx="8"/>';
    svg+='<text class="label" text-anchor="middle" x="'+xs[i]+'" y="'+(by+18)+'">'+esc(p.name)+'</text>';
@@ -242,10 +256,10 @@ function renderStory(){
  segbar.innerHTML=weights.map((x,i)=>'<i style="background:'+['#3e92f6','#48c66a','#f2a23b','#b760e7','#ed5f74'][i%5]+'"></i>').join('');
  segtext.innerHTML=weights.map(x=>'<span>'+x+' '+(current.segmentUnit||'km')+'</span>').join('');
  sumDist.textContent=current.distance?current.distance+' km':'—';
- sumHigh.textContent=fmt(max)+' m'+(pts.find(p=>p.e===max)?' ('+pts.find(p=>p.e===max).name+')':'');
+ sumHigh.textContent=fmt(max)+' m'+(pts.find(p=>Number(p.e)===max)?' ('+pts.find(p=>Number(p.e)===max).name+')':'');
  sumThirdLabel.textContent=current.duration&&/day/i.test(current.duration)?'Total Days':'Duration';
  sumThird.textContent=current.duration||pts.length+' stops';
- current._anim=pts.map((p,i)=>[xs[i]/10,64+(ys[i]/4.2)*.36]);
+ current._anim=pts.map((p,i)=>[7+(xs[i]/10)*.90,20.5+(ys[i]/4.2)*.35]);
  document.getElementById('mapPane').style.display='none';
 }
 function playStory(){let i=0;const h=document.getElementById('hiker'),pts=current._anim||[];if(!pts.length)return;h.style.left=pts[0][0]+'%';h.style.top=pts[0][1]+'%';const t=setInterval(()=>{i++;if(i>=pts.length){clearInterval(t);return}h.style.left=pts[i][0]+'%';h.style.top=pts[i][1]+'%'},760)}
