@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Poon Hill | Real 3D Terrain Route</title>
+<link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#08131c;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}#map{position:fixed;inset:0}
+#shade{position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.48),transparent 21%,transparent 68%,rgba(0,0,0,.55))}
+header{position:fixed;top:calc(env(safe-area-inset-top) + 20px);left:4vw;right:4vw;z-index:2;display:flex;justify-content:space-between;gap:15px;align-items:flex-start;pointer-events:none}
+h1{font-size:clamp(18px,2.1vw,30px);line-height:1;margin:0 0 7px;letter-spacing:-.025em;text-shadow:0 2px 12px #000}
+header p{font-size:clamp(11px,1vw,14px);margin:0;color:#d9e9ed;text-shadow:0 1px 5px #000}
+#controls{display:flex;gap:8px;pointer-events:auto}
+button{background:rgba(8,26,38,.80);border:1px solid rgba(255,255,255,.26);border-radius:25px;color:#fff;padding:10px 13px;font:600 13px system-ui;cursor:pointer;backdrop-filter:blur(12px)}
+button:disabled{opacity:.5}
+#status{position:fixed;top:calc(env(safe-area-inset-top) + 95px);left:4vw;max-width:min(600px,89vw);z-index:3;font-size:13px;color:#e9f6fc;background:rgba(7,18,25,.68);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:9px 12px}
+#hud{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 18px);left:3%;right:3%;z-index:2;border:1px solid #ffffff30;background:rgba(4,16,23,.76);border-radius:16px;padding:13px 18px 12px;backdrop-filter:blur(14px);box-shadow:0 8px 25px #0005}
+#sections{display:grid;grid-template-columns:1fr 1fr .85fr;gap:20px}
+.day{opacity:.5;transition:opacity .2s}.day.done{opacity:.7}.day.active{opacity:1}
+.rail{height:3px;background:#fff5;border-radius:30px;overflow:hidden;margin-bottom:8px}.fill{display:block;width:0;height:100%;background:#f3b85c;transition:width .1s linear}
+.row{display:flex;align-items:baseline;gap:10px;justify-content:space-between;font-size:clamp(10px,1.1vw,13px)}.row strong{white-space:nowrap}.row span{color:#c4d6de}
+#metrics{display:flex;justify-content:space-between;gap:20px;margin-top:11px;color:#d3e5e9;font-size:11px}
+#elevation{height:20px;width:180px;max-width:30%;background:linear-gradient(120deg,transparent 45%,#9fb8bb7f 46%,#f0c17a 55%,transparent 56%);opacity:.75}
+.pin{text-shadow:0 2px 5px #001,0 0 10px #000;line-height:1.1;transform:translate(-15px,-36px);white-space:nowrap;pointer-events:none}
+.pin b{display:block;font-size:13px;letter-spacing:-.01em}.pin small{font-size:11px;font-weight:500;color:#d8eaf2}
+.pin:after{content:"";display:block;height:17px;width:1px;background:#fff9;margin-left:13px;margin-top:3px}
+.maplibregl-control-container{opacity:.65}.maplibregl-ctrl-attrib{font-size:9px!important}
+@media(max-width:650px){#hud{bottom:calc(env(safe-area-inset-bottom) + 9px);padding:11px 10px}#sections{gap:8px}.row{display:block;font-size:11px}.row span{display:block;font-size:10px;margin-top:3px}#metrics{font-size:10px}#status{top:calc(env(safe-area-inset-top) + 85px)}#controls button{font-size:12px;padding:8px}header{top:calc(env(safe-area-inset-top) + 12px)}}
+</style>
+</head>
+<body>
+<div id="map"></div><div id="shade"></div>
+<header><div><h1>POON HILL TREK</h1><p>Hile → Poon Hill · 3 days · Nepal</p></div><div id="controls"><button id="play" disabled>Play</button><button id="reset" disabled>Restart</button></div></header>
+<div id="status" role="status">Loading genuine 3D terrain and the OpenStreetMap walking route…</div>
+<div id="hud">
+ <div id="sections">
+  <div class="day active"><div class="rail"><span class="fill"></span></div><div class="row"><strong>DAY 1</strong><span>4–5 h reference</span></div></div>
+  <div class="day"><div class="rail"><span class="fill"></span></div><div class="row"><strong>DAY 2</strong><span>4–5 h reference</span></div></div>
+  <div class="day"><div class="rail"><span class="fill"></span></div><div class="row"><strong>DAY 3</strong><span>45–60 min</span></div></div>
+ </div>
+ <div id="metrics"><span id="progress">Hile · 0.0 km</span><span id="alt">To Poon Hill · 3,210 m</span><span>Real OSM paths + DEM</span></div>
+</div>
+<script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
+<script>
+(() => {
+"use strict";
+const checkpoints=[
+ {name:"Hile",lat:28.34365,lon:83.74124,ele:1500},
+ {name:"Tikhedhunga",lat:28.34906,lon:83.74226,ele:1570},
+ {name:"Ulleri",lat:28.35673,lon:83.73538,ele:2050},
+ {name:"Banthanti",lat:28.36833,lon:83.73239,ele:2210},
+ {name:"Nangethanti",lat:28.38417,lon:83.71033,ele:2460},
+ {name:"Ghorepani",lat:28.40249,lon:83.69993,ele:2853},
+ {name:"Poon Hill",lat:28.40000,lon:83.68950,ele:3210}
+];
+const status=document.getElementById("status"), play=document.getElementById("play"), reset=document.getElementById("reset"), days=[...document.querySelectorAll(".day")];
+let coords=[],distance=[],arrival=[],total=0,phase="idle",startTime=0,pauseElapsed=0,animation=0,visited=new Set();
+const map=new maplibregl.Map({
+ container:"map",antialias:true,
+ style:{version:8,sources:{
+  satellite:{type:"raster",tiles:["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],tileSize:256,maxzoom:19,attribution:"Imagery © Esri and its data providers"},
+  dem:{type:"raster-dem",tiles:["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],tileSize:256,encoding:"terrarium",maxzoom:14,attribution:"Terrain © Mapzen/Tilezen, AWS Open Data"}
+ },layers:[{id:"imagery",type:"raster",source:"satellite"}]},
+ center:[83.715,28.375],zoom:11.85,bearing:10,pitch:67,maxPitch:85
+});
+map.addControl(new maplibregl.NavigationControl({showCompass:true}),"bottom-right");
+map.on("error",e=>console.warn("Map data",e.error));
+const lineGeom=()=>({type:"Feature",properties:{},geometry:{type:"LineString",coordinates:coords.length?[coords[0],coords[0]]:[[83.74124,28.34365],[83.74124,28.34365]]}});
+function hav(a,b){const r=Math.PI/180,p1=a[1]*r,p2=b[1]*r,d=(b[1]-a[1])*r,l=(b[0]-a[0])*r;const q=Math.sin(d/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(l/2)**2;return 12742*Math.asin(Math.sqrt(q));}
+function nearestIndex(target,from){let best=from,bestd=Infinity;for(let i=from;i<coords.length;i++){const d=hav(coords[i],target);if(d<bestd){bestd=d;best=i;}if(i>from+30&&d>bestd+0.55)break;}return best;}
+async function requestFootRoute(){
+ const path=checkpoints.map(p=>p.lon+","+p.lat).join(";");
+ const api="https://routing.openstreetmap.de/routed-foot/route/v1/driving/"+path+"?overview=full&geometries=geojson&steps=false";
+ try{
+  const response=await fetch(api,{mode:"cors"});if(!response.ok)throw Error("OSRM HTTP "+response.status);
+  const data=await response.json();
+  if(data.code!=="Ok"||!data.routes?.[0]?.geometry?.coordinates?.length)throw Error(data.message||"No path");
+  return data.routes[0].geometry.coordinates;
+ }catch(err){
+  console.warn("OSRM unavailable; trying BRouter",err);
+  const lonlats=checkpoints.map(p=>p.lon+","+p.lat).join("|");
+  const url="https://brouter.de/brouter?lonlats="+encodeURIComponent(lonlats)+"&profile=trekking&alternativeidx=0&format=geojson";
+  const response=await fetch(url,{mode:"cors"});if(!response.ok)throw Error("BRouter HTTP "+response.status);
+  const data=await response.json();
+  const geom=data.features?.find(f=>f.geometry?.type==="LineString")?.geometry||data.geometry;
+  if(!geom?.coordinates?.length)throw Error("BRouter returned no trail");
+  return geom.coordinates.map(v=>v.slice(0,2));
+ }
+}
+function addLabel(i){
+ if(visited.has(i))return;visited.add(i);
+ const p=checkpoints[i],el=document.createElement("div");el.className="pin";
+ el.innerHTML="<b>"+p.name+"</b><small>"+p.ele.toLocaleString()+" m</small>";
+ new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat([p.lon,p.lat]).addTo(map);
+}
+function render(ms){
+ const progress=Math.min(1,ms/16000),d=total*progress;
+ let i=0;while(i<distance.length-2&&distance[i+1]<d)i++;
+ const k=Math.max(0,Math.min(1,(d-distance[i])/(distance[i+1]-distance[i]||1)));
+ const tip=[coords[i][0]+k*(coords[i+1][0]-coords[i][0]),coords[i][1]+k*(coords[i+1][1]-coords[i][1])];
+ map.getSource("walked").setData({type:"Feature",properties:{},geometry:{type:"LineString",coordinates:[...coords.slice(0,i+1),tip]}});
+ map.getSource("lead").setData({type:"Feature",properties:{},geometry:{type:"Point",coordinates:tip}});
+ let j=0;arrival.forEach((v,index)=>{if(d>=v-0.008){addLabel(index);j=index;}});
+ let current=j<2?0:j<5?1:2;
+ days.forEach((e,index)=>{
+  e.classList.toggle("active",index===current);e.classList.toggle("done",index<current);
+  const a=[arrival[0],arrival[2],arrival[5]][index],b=[arrival[2],arrival[5],arrival[6]][index];
+  e.querySelector(".fill").style.width=(100*Math.max(0,Math.min(1,(d-a)/(b-a||1))))+"%";
+ });
+ document.getElementById("progress").textContent=checkpoints[j].name+" · "+d.toFixed(1)+" km";
+ document.getElementById("alt").textContent= progress===1?"Poon Hill reached · 3,210 m":"Highest point · 3,210 m";
+ if(progress===1){phase="done";play.textContent="Play";status.textContent="Poon Hill reached. End of Day 3 — no return leg.";return;}
+ if(Math.floor(ms/1300)!==Math.floor((ms-30)/1300)){map.easeTo({center:tip,duration:1300,essential:true});}
+ animation=requestAnimationFrame(tick);
+}
+function tick(now){if(phase!=="playing")return;render(pauseElapsed+now-startTime);}
+function stop(){cancelAnimationFrame(animation);phase="paused";play.textContent="Continue";}
+function begin(resetMode=false){
+ if(resetMode){visited.forEach(()=>{});document.querySelectorAll(".pin").forEach(e=>e.remove());visited=new Set();pauseElapsed=0;}
+ if(phase==="playing")return;
+ phase="playing";startTime=performance.now();play.textContent="Pause";
+ status.textContent="Real 3D terrain · walking route from OpenStreetMap · elevations are checkpoint references";
+ animation=requestAnimationFrame(tick);
+}
+play.addEventListener("click",()=>{
+ if(phase==="playing"){pauseElapsed+=performance.now()-startTime;stop();}
+ else begin(phase==="done");
+});
+reset.addEventListener("click",()=>{if(phase==="playing")cancelAnimationFrame(animation);phase="idle";begin(true);});
+map.on("load",async()=>{
+ try{
+ map.setTerrain({source:"dem",exaggeration:1.4});
+ coords=await requestFootRoute();
+ if(coords.length<7)throw Error("Incomplete route geometry");
+ distance=[0];for(let i=1;i<coords.length;i++)distance.push(distance.at(-1)+hav(coords[i-1],coords[i]));
+ total=distance.at(-1);
+ if(total<6||total>35)throw Error("Route length out of expected range: "+total.toFixed(1)+" km");
+ arrival=[0];let from=0;
+ for(let j=1;j<checkpoints.length-1;j++){
+   const idx=nearestIndex([checkpoints[j].lon,checkpoints[j].lat],from);
+   if(idx<=from)throw Error("Checkpoint ordering invalid: "+checkpoints[j].name);
+   from=idx;arrival.push(distance[idx]);
+ }
+ arrival.push(total);
+ map.addSource("walked",{type:"geojson",data:lineGeom()});
+ map.addSource("lead",{type:"geojson",data:{type:"Feature",geometry:{type:"Point",coordinates:coords[0]}}});
+ map.addLayer({id:"walked-glow",type:"line",source:"walked",paint:{"line-color":"#ffbc5e","line-width":11,"line-blur":6,"line-opacity":0.5}});
+ map.addLayer({id:"walked-main",type:"line",source:"walked",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#ffe1a1","line-width":3.4}});
+ map.addLayer({id:"moving-dot",type:"circle",source:"lead",paint:{"circle-radius":7,"circle-color":"#ffc668","circle-stroke-color":"#fff","circle-stroke-width":2,"circle-blur":0.05}});
+ status.textContent="Verified walking path loaded ("+total.toFixed(1)+" km). 3D terrain from AWS DEM. Press Play.";
+ play.disabled=false;reset.disabled=false;addLabel(0);
+ const bounds=new maplibregl.LngLatBounds();checkpoints.forEach(p=>bounds.extend([p.lon,p.lat]));
+ map.fitBounds(bounds,{padding:{top:130,bottom:180,left:120,right:120},bearing:10,pitch:68,duration:1200,maxZoom:12.7});
+ }catch(err){console.error(err);status.textContent="Could not retrieve a genuine walking track: "+err.message+". No invented route has been drawn.";play.disabled=true;reset.disabled=true;}
+});
+})();
+</script>
+</body>
+</html>
