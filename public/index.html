@@ -163,26 +163,26 @@ function ticketDate(e) {
 function photoTile(e,kind='event') {
   const photo=photoURL(e);
   const d=ticketDate(e);
-  return \`<button type="button" class="ticket-visual \${photo?'has-image':''} \${kind==='rec'?'rec-art':''}" onclick="detail('\${e.id}')" aria-label="查看\${esc(e.name)}詳情，日期\${esc(d.label)}">
-    <span class="ticket-datecore"><span class="ticket-date-eyebrow">\${d.ongoing?'EXHIBITION UNTIL':'EVENT DATE'}</span><strong>\${esc(d.large)}</strong><span class="ticket-date-month">\${esc(d.month)}</span></span>
-    \${photo?'<img class="ticket-photo" src="'+esc(photo)+'" loading="lazy" alt="'+esc(e.name)+'官方活動照片" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\\'image-failed\\');this.remove()">':''}
-  </button>\`;
+  return `<button type="button" class="ticket-visual ${photo?'has-image':''} ${kind==='rec'?'rec-art':''}" onclick="detail('${e.id}')" aria-label="查看${esc(e.name)}詳情，日期${esc(d.label)}">
+    <span class="ticket-datecore"><span class="ticket-date-eyebrow">${d.ongoing?'EXHIBITION UNTIL':'EVENT DATE'}</span><strong>${esc(d.large)}</strong><span class="ticket-date-month">${esc(d.month)}</span></span>
+    ${photo?'<img class="ticket-photo" src="'+esc(photo)+'" loading="lazy" alt="'+esc(e.name)+'官方活動照片" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'image-failed\');this.remove()">':''}
+  </button>`;
 }
 function card(e) {
   const save=state.saved.includes(e.id);
   const provider=e.provider||'官方主辦方';
-  return \`<article class="event ticket-card tone-\${ticketAccent(e)}">
-    <div class="ticket-topline"><span class="ticket-category">\${esc(e.category||'活動')}</span><span class="ticket-schedule">\${esc(e.dateDisplay||'日期見詳情')}</span><button type="button" class="ticket-fav \${save?'is-saved':''}" aria-label="\${save?'取消收藏':'收藏活動'}" onclick="saveEvent('\${e.id}')">\${save?'♥':'♡'}</button></div>
-    <div class="ticket-main">\${photoTile(e)}
+  return `<article class="event ticket-card tone-${ticketAccent(e)}">
+    <div class="ticket-topline"><span class="ticket-category">${esc(e.category||'活動')}</span><span class="ticket-schedule">${esc(e.dateDisplay||'日期見詳情')}</span><button type="button" class="ticket-fav ${save?'is-saved':''}" aria-label="${save?'取消收藏':'收藏活動'}" onclick="saveEvent('${e.id}')">${save?'♥':'♡'}</button></div>
+    <div class="ticket-main">${photoTile(e)}
       <div class="ticket-info">
-        <div class="ticket-provider">✓ \${esc(provider)}</div>
-        <button type="button" class="ticket-title" onclick="detail('\${e.id}')">\${esc(e.name)}</button>
-        <p class="ticket-description">\${esc(e.description)}</p>
-        <div class="ticket-place">\${esc(e.district||'香港')} · \${esc(e.loc||'地點見官方')}</div>
+        <div class="ticket-provider">✓ ${esc(provider)}</div>
+        <button type="button" class="ticket-title" onclick="detail('${e.id}')">${esc(e.name)}</button>
+        <p class="ticket-description">${esc(e.description)}</p>
+        <div class="ticket-place">${esc(e.district||'香港')} · ${esc(e.loc||'地點見官方')}</div>
       </div>
     </div>
-    <div class="ticket-actions"><span class="ticket-price">\${esc(e.price||'票價見官方')}</span><button type="button" class="ticket-detail" onclick="detail('\${e.id}')">活動詳情</button><button type="button" class="ticket-add" onclick="pickEvent('\${e.id}')">＋ 加入行程</button></div>
-  </article>\`;
+    <div class="ticket-actions"><span class="ticket-price">${esc(e.price||'票價見官方')}</span><button type="button" class="ticket-detail" onclick="detail('${e.id}')">活動詳情</button><button type="button" class="ticket-add" onclick="pickEvent('${e.id}')">＋ 加入行程</button></div>
+  </article>`;
 }
 function matchesDateFilter(e,mode){
  const today=hkDay(),dates=e.date||[];
@@ -248,14 +248,14 @@ function recommendations(){return EVENTS.filter(e=>!state.ignored.includes(e.id)
  .sort((a,b)=>b.score-a.score)}
 function recCard({e,reason}) {
  const saved=state.saved.includes(e.id);
- return \`<article class="rec-card tone-\${ticketAccent(e)}"><div class="rec-kicker"><span>✦ 可能適合你</span><span>\${esc(e.dateDisplay)}</span></div>
-  <div class="rec-reason">\${esc(reason)}</div>
-  <div class="rec-flex">\${photoTile(e,'rec')}<div class="rec-body">
-    <div class="ticket-provider">✓ \${esc(e.provider||'官方主辦方')}</div>
-    <h3 onclick="detail('\${e.id}')">\${esc(e.name)}</h3><p>\${esc(e.description)}</p>
-    <div class="rec-meta">\${esc(e.district)} · \${esc(e.price)}</div>
+ return `<article class="rec-card tone-${ticketAccent(e)}"><div class="rec-kicker"><span>✦ 可能適合你</span><span>${esc(e.dateDisplay)}</span></div>
+  <div class="rec-reason">${esc(reason)}</div>
+  <div class="rec-flex">${photoTile(e,'rec')}<div class="rec-body">
+    <div class="ticket-provider">✓ ${esc(e.provider||'官方主辦方')}</div>
+    <h3 onclick="detail('${e.id}')">${esc(e.name)}</h3><p>${esc(e.description)}</p>
+    <div class="rec-meta">${esc(e.district)} · ${esc(e.price)}</div>
   </div></div>
-  <div class="rec-actions"><button onclick="skipSuggestion('\${e.id}')">唔啱我</button><button onclick="saveEvent('\${e.id}')">\${saved?'♥ 已收藏':'♡ 收藏'}</button><button class="rec-add" onclick="pickEvent('\${e.id}')">＋ 排入行程</button></div></article>\`;
+  <div class="rec-actions"><button onclick="skipSuggestion('${e.id}')">唔啱我</button><button onclick="saveEvent('${e.id}')">${saved?'♥ 已收藏':'♡ 收藏'}</button><button class="rec-add" onclick="pickEvent('${e.id}')">＋ 排入行程</button></div></article>`;
 }
 function drawSuggestions(){
  $('moodchips').innerHTML=MOODS.map(([id,label])=>`<button class="chip ${suggestionMood===id?'active':''}" data-mood="${id}" onclick="setMood('${id}')">${label}</button>`).join('');
