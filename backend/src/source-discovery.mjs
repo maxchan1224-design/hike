@@ -44,7 +44,7 @@ async function scanOne(source,db){
   for(const candidate of candidates){
    const id=await digestUrl(candidate.url);
    const result=await db.prepare(
-    "INSERT INTO activity_leads(id,source_platform,post_url,organizer_official_url,organizer_verified,review_status,collected_at) VALUES(?,?,?,?,1,'pending',?) ON CONFLICT(post_url) DO NOTHING"
+    "INSERT INTO activity_leads(id,source_platform,post_url,organizer_official_url,organizer_verified,review_status,collected_at) VALUES(?,?,?,?,0,'pending',?) ON CONFLICT(post_url) DO NOTHING"
    ).bind(id,'official:'+source.id,candidate.url,candidate.url,new Date().toISOString()).run();
    newCount+=Number(result?.meta?.changes||0);
   }
