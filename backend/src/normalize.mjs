@@ -11,14 +11,34 @@ const scalar = value => {
   if (value && typeof value === 'object') return scalar(value['#text'] ?? '');
   return value == null ? '' : String(value).trim();
 };
+// LCSD may publish fields as XML elements or XML attributes.
+// fast-xml-parser prefixes attributes with '@_' by default.
 export function field(obj, ...names) {
   if (!obj || typeof obj !== 'object') return '';
-  const indexed = Object.fromEntries(Object.entries(obj).map(([k,v])=>[k.replace(/^.*:/,'').toLowerCase(),v]));
+  const indexed = new Map();
+  for (const [key,value] of Object.entries(obj)) {
+    const normalized = key.replace(/^@_/, '').replace(/^.*:/, '').toLowerCase();
+    if (!indexed.has(normalized) || !key.startsWith('@_')) indexed.set(normalized,value);
+  }
   for (const name of names) {
-    const s = scalar(indexed[name.toLowerCase()]);
-    if (s) return s;
+    const value=scalar(indexed.get(name.toLowerCase()));
+    if (value) return value;
   }
   return '';
+}
+function valuesFor(obj,name) {
+  if (!obj || typeof obj !== 'object') return [];
+  const match=Object.entries(obj).find(([key]) => key.replace(/^@_/,'').replace(/^.*:/,'').toLowerCase()===name);
+  if (!match) return [];
+  return Array.isArray(match[1]) ? match[1] : [match[1]];
+}
+function rootAndKeyNames(tree) {
+  if (!tree || typeof tree!=='object') return 'none';
+  const root=Object.entries(tree).find(([k])=>k!=='?xml')?.[1];
+  const rootNames=Object.keys(tree).filter(k=>k!=='?xml').slice(0,3);
+  const childNames=(root && typeof root==='object' ? Object.keys(root):[]).slice(0,8);
+  // Show XML field names only; do not expose event descriptions or URLs.
+  return rootNames.join('|') + ':' + childNames.join('|');
 }
 // Source XML root/tag names can vary. Require expected fields rather than guessing them.
 export function rowsOf(tree, predicate) {
@@ -46,7 +66,6 @@ export function toIsoDay(raw) {
   const s=String(raw||'').trim();
   let m=s.match(/^(20\d\d)[-\/.]?(0[1-9]|1[0-2])[-\/.]?([0-2]\d|3[01])(?:T|\s|$)/);
   if (!m) return null;
-  const yyyy=+m[1], mm=+m[2], dd=+m[3];
   const d=`${m[1]}-${m[2]}-${m[3]}`;
   return new Date(d+'T00:00:00Z').toISOString().slice(0,10)===d ? d : null;
 }
@@ -58,14 +77,15 @@ export function normalizeLCSD({programmes, dates, venues}, {today=hkToday(), hor
   const rawProgrammes=rowsOf(programmes,x=>field(x,'id') && (field(x,'titlec')||field(x,'titlee')));
   const rawDates=rowsOf(dates,x=>field(x,'id') && field(x,'indate'));
   const rawVenues=rowsOf(venues,x=>field(x,'id') && (field(x,'venuec')||field(x,'venue')));
-  if (!rawProgrammes.length || !rawDates.length || !rawVenues.length) throw Error('Source shape mismatch: missing programme/date/venue rows');
+  if (!rawProgrammes.length || !rawDates.length || !rawVenues.length) {
+    throw Error(`Source shape mismatch: programmes=${rawProgrammes.length}, dates=${rawDates.length}, venues=${rawVenues.length}; rootKeys [p=${rootAndKeyNames(programmes)}, d=${rootAndKeyNames(dates)}, v=${rootAndKeyNames(venues)}]`);
+  }
   const venuesById=new Map(rawVenues.map(x=>[field(x,'id'),x]));
   const datesById=new Map();
   for (const row of rawDates) {
     const id=field(row,'id');
     if (!datesById.has(id)) datesById.set(id,new Set());
-    const raw = row.indate ?? row.INDATE;
-    for (const value of Array.isArray(raw)?raw:[raw]) {
+    for (const value of valuesFor(row,'indate')) {
       const day=toIsoDay(scalar(value));
       if (day) datesById.get(id).add(day);
     }
