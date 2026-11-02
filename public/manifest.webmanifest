@@ -1,1 +1,17 @@
-{"name":"Hike","short_name":"Hike","start_url":"./","display":"standalone","background_color":"#07131e","theme_color":"#07131e","description":"Lightweight hiking route recorder and elevation story creator."}
+{
+  "name": "DAYCATION HK｜香港當旅行",
+  "short_name": "DAYCATION HK",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f5ef",
+  "theme_color": "#f7f5ef",
+  "description": "香港本地活動探索、個人化推薦、收藏與一日遊行程規劃。",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

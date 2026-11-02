@@ -1,52 +1,29 @@
-# Hike
+# DAYCATION HK — 香港當旅行
 
-A standalone hiking journal and visual-story app.
+iPhone-first Hong Kong local day-trip and verified-activities explorer.
 
-## Current MVP
+**Status (2026-11-02):** Frontend interactive prototype with demonstration events. Backend ingestion and D1 code is present but **not yet deployed**. No live coverage or live AI model is claimed.
 
-- Manual route creator with mountain-aware suggestions.
-- Elevation story with moving hiker preview.
-- Lightweight Start / Finish recording with no continuous GPS.
-- Route map for routes with coordinates.
-- Demo routes for Poon Hill and Lantau Peak.
-- Local-only storage for route drafts and lightweight records.
+## App
+- Five tabs: 全部活動 / AI 推薦 / 收藏 / 行程 / 個人化.
+- Save events, select an activity, build a local day trip and tailor preferences.
+- Suggestions currently use local interest-matching, not a hosted AI model.
+- Current event cards are illustrative verified-event examples, not a synchronized city-wide feed.
+- No .ics export (intentionally removed at user request).
 
-## Cloudflare deployment
-
-This repository is configured for **Cloudflare Workers Static Assets**.
-
-Structure:
-
-```
-public/
-  index.html
-  manifest.webmanifest
-wrangler.jsonc
-package.json
-```
-
-Cloudflare build/deploy settings:
-
-- Production branch: `main`
-- Build command: leave blank, or `npm install`
-- Deploy command: `npx wrangler deploy`
-- Root directory: repository root
-- No Pages project is required.
-
-Local preview:
-
+### Frontend (Cloudflare Worker static assets)
 ```bash
 npm install
 npm run dev
-```
-
-Deploy manually:
-
-```bash
-npm install
 npm run deploy
 ```
+Static assets: `public/`. Worker name: `daycation-hk`.
 
-## Product direction
+### Verified events backend (Cloudflare Worker + D1)
+Backend source: `backend/` (see `backend/README.md`).
+Before production deploy, create a D1 database, replace the database ID placeholder and apply migrations. The frontend **is not yet connected to the backend endpoint**; do not treat the demo events as live.
 
-The goal is not another fitness dashboard. Hike turns a real hiking journey into a short visual story: route order, elevation, famous mountains, companions, and a shareable animation.
+## GitHub / Cloudflare migration
+This project was originally created in GitHub repository `hike`. The former Hike code is preserved in branch `backup/hike-before-daycation-20261102`. The main branch now contains only DAYCATION HK.
+Rename the GitHub repository using **Settings → General → Repository name → daycation-hk**. A repo rename is not available through the connected GitHub tools.
+After deploying the new site, remove the previous `hike` Cloudflare Worker/project separately if no longer needed. Changing `wrangler.jsonc` does not delete a separately deployed Worker.
