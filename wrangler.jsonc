@@ -1,10 +1,32 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "daycation-hk",
+  "name": "hike",
+  "main": "src/worker.mjs",
   "compatibility_date": "2026-11-02",
+  "observability": {
+    "enabled": true
+  },
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "single-page-application"
-  }
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*",
+      "/admin/*"
+    ]
+  },
+  "triggers": {
+    "crons": [
+      "0 23 * * *"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "daycation-hk-events",
+      "database_id": "354c63ed-c807-47bd-827b-29508a201afd",
+      "migrations_dir": "backend/migrations"
+    }
+  ]
 }

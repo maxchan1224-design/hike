@@ -1,47 +1,42 @@
-# DAYCATION HK — 香港當旅行
+# DAYCATION HK · 香港當旅行
 
-An iPhone-first local day-trip planner with an official-sources-first activity catalogue. GitHub repository name **hike** remains unchanged at the owner's request.
+**One repository, one existing Cloudflare Worker.** The GitHub repository remains named `hike`, and the Cloudflare Worker remains named `hike` (`hike.maxchan1224.workers.dev`). There is **no separate** `daycation-hk-events` Worker. That string is only the **D1 database name**.
 
-## Current status
+## Product
+- iPhone-first app with five tabs: 全部活動 / AI 推薦 / 收藏 / 行程 / 個人化.
+- Save activities, build local day trips, tune preferences. No .ics export.
+- Personalised recommendations are **on-device rules**, not a live AI model.
+- Historical sample activities remain clearly marked as demos and are not current listings.
 
-- **Frontend:** 5 tabs (全部活動、AI 推薦、收藏、行程、個人化), demo itinerary and browser-local saved preferences.
-- **Official activities integration:** read-only LCSD adapter has been implemented. It only displays source-tagged, verified event records when a backend endpoint is configured and responds successfully. Each imported programme is linked to its official source. Official feeds may not include exact clock times; when absent, users must choose their own planning time, not mistake it for a confirmed session.
-- **No live data yet:** backend D1 database and Worker have not been deployed. Until then, old activity examples remain visibly marked 示範. No AI model is connected; recommendations are preference-ranking demo logic.
-- **No .ics export.** A user can save activities and assemble a day trip locally.
+## Architecture
+- `public/`: web app and static assets.
+- `src/worker.mjs`: routes `/api/*` and `/admin/*` to the activity backend, serves assets otherwise.
+- `backend/src/`: official LCSD XML feed normalisation and D1 API.
+- `backend/migrations/`: D1 database schema.
+- `wrangler.jsonc`: **root configuration targeting existing Worker `hike`**, binding `DB` to `daycation-hk-events` D1.
+- `public/data-config.js`: same-origin API connection; no second-worker URL.
+- A daily UTC 23:00 Cron trigger means 07:00 Hong Kong time.
 
-## Frontend deployment
+## Deploy to existing `hike` Worker
+From the repository **root** (not `backend/`):
 
-```
+```bash
 npm install
-npm run dev
-npm run deploy
+npm test
+npx wrangler d1 migrations apply daycation-hk-events --remote
+npx wrangler deploy
 ```
 
-This site deploys to a **Worker named `daycation-hk`**. This does not rename GitHub `hike` and does not automatically delete previous Cloudflare deployments.
+If using Cloudflare's GitHub integration, set **Root directory = repository root**, not `backend`; deploy command `npx wrangler deploy`. **Apply the D1 migration before relying on the API.** Confirm the D1 database ID in the root config matches your own database. A manual migration may also be run in the Cloudflare D1 SQL editor using `backend/migrations/0001_init.sql`.
 
-`public/data-config.js` initially contains:
+Do not create another Worker. Publishing to `hike` intentionally replaces the website served by that existing Worker. GitHub repository name stays `hike`.
 
-```javascript
-window.DAYCATION_DATA_API = '';
-```
+After migration/deploy:
+- `https://hike.maxchan1224.workers.dev/`: DAYCATION HK app.
+- `https://hike.maxchan1224.workers.dev/api/health`: D1 / data freshness check; `live:false` before successful sync is expected.
+- `https://hike.maxchan1224.workers.dev/api/events`: only verified official future events.
+- `POST /admin/sync`: optional manual sync; requires separately configured Cloudflare secret `ADMIN_TOKEN` (never put it in GitHub or chat). Otherwise wait for the daily Cron.
 
-After the backend has been deployed, its D1 migrations applied, and `/api/health` and `/api/events` verified, set this to its deployed HTTPS origin (e.g., the actual Cloudflare Worker origin returned by deployment; **do not guess a URL**). Without this setting, the UI says 官方活動資料尚未接通 rather than pretending sample events are live.
+A healthy `/api/health` response does **not** guarantee the official feed was synced. The backend has not yet passed a real-feed end-to-end import in this environment; validate official programme fields and sync logs before relying on results.
 
-## Verified backend
-
-See `backend/README.md` for D1 setup and the Cloudflare Worker instructions. Backend supports pagination (`limit`, `offset`) and `/api/health` reports stale-sync status separately from ticket availability.
-
-## Testing
-
-```
-node --test test/*.test.mjs backend/test/*.test.mjs
-```
-
-These validate adapter source checks and LCSD normalization with synthetic examples. Actual LCSD feed ingestion and Cloudflare D1 deployment still need integration testing. Browser navigation in the current execution environment is blocked, so visual/mobile UI validation must be done using an accessible deployed preview.
-
-## Safety and provenance
-
-- Official origin and verification flags are mandatory for publishing synchronized entries.
-- Third-party social media posts are research leads, not evidence sufficient for public display.
-- All API failures surface a clear status and never silently re-label demos as current events.
-- Importing programmes never claims real-time reservation or ticket availability.
+Social media posts (including Threads and Instagram) remain **discovery leads only**, not public activities without independent organizer confirmation. The current API covers LCSD cultural programmes, not all Hong Kong activities.

@@ -1,12 +1,19 @@
 {
   "name": "daycation-hk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.mjs backend/test/*.test.mjs",
+    "db:migrate": "wrangler d1 migrations apply daycation-hk-events --remote",
+    "db:local": "wrangler d1 migrations apply daycation-hk-events --local"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.2.5"
   },
   "devDependencies": {
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.20.0"
   }
 }
