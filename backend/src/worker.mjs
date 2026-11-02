@@ -1,5 +1,6 @@
 import { XMLParser } from 'fast-xml-parser';
 import { OFFICIAL, normalizeLCSD, hkToday, addDays } from './normalize.mjs';
+import { ORGANIZER_SOURCES, publicSources, discoverOrganizerLeads } from './source-discovery.mjs';
 
 const json=(obj,status=200)=>new Response(JSON.stringify(obj),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store','access-control-allow-origin':'*','x-content-type-options':'nosniff'}});
 const fail=(reason,status)=>json({ok:false,error:reason},status);
@@ -105,6 +106,15 @@ export default {
     const url=new URL(req.url);
     if(req.method==='OPTIONS')return new Response(null,{status:204,headers:{'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,OPTIONS','access-control-allow-headers':'authorization,content-type'}});
     try {
+      if(req.method==='GET'&&url.pathname==='/api/sources')return json({ok:true,organizers:publicSources(),policy:'Only organizer-confirmed activities are publishable. Discovery leads are not public events.'});
+      if(url.pathname.startsWith('/admin/')) {
+        if(!env.ADMIN_TOKEN||req.headers.get('authorization')!==`Bearer ${env.ADMIN_TOKEN}`)return fail('Unauthorized',401);
+        if(req.method==='POST'&&url.pathname==='/admin/discover')return json(await discoverOrganizerLeads(env.DB));
+        if(req.method==='GET'&&url.pathname==='/admin/leads'){
+          const rows=(await env.DB.prepare("SELECT source_platform,post_url,organizer_official_url,review_status,collected_at FROM activity_leads WHERE review_status='pending' AND source_platform LIKE 'official:%' ORDER BY collected_at DESC LIMIT 100").all()).results||[];
+          return json({ok:true,leads:rows,count:rows.length,note:'Not public activities. Verify dates and organizer before publishing.'});
+        }
+      }
       if(req.method==='GET'&&url.pathname==='/api/events')return await listEvents(url,env.DB);
       if(req.method==='GET'&&url.pathname==='/api/health')return await health(env.DB);
       if(req.method==='POST'&&url.pathname==='/admin/sync') {
@@ -122,6 +132,9 @@ export default {
       return fail('Temporary service error',503);
     }
   },
-  async scheduled(controller,env,ctx) { await syncLCSD(env,new Date(controller.scheduledTime||Date.now())); }
+  async scheduled(controller,env,ctx) {
+    // The user opted out of bulk LCSD updates; scheduled scans only collect private leads.
+    ctx.waitUntil(discoverOrganizerLeads(env.DB).then(result=>console.log('Official organizer discovery',JSON.stringify(result))).catch(err=>console.error('Organizer scan failed',String(err))));
+  }
 };
 export {syncLCSD};
