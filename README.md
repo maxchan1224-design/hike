@@ -32,3 +32,30 @@ The D1 LCSD database remains bound to the existing `hike` Worker but the **sched
 The root configuration targets the existing Worker named `hike` and serves `public/` plus API. Normal deployment remains `npx wrangler deploy` from repo root.
 
 The former website and sample weekend trips are still present in local demo history but are not mixed into the new curated public list. No .ics export.
+
+
+## V0.5 — image-optional cards and organizer discovery
+
+- Activity and AI recommendation cards use **real organizer photos only when `photoUrl` is provided and `photoVerified: true`**. With no trusted photograph, the card becomes a clean, full-width text card — **no decorative icon placeholder**. Failed image requests also hide the image.
+- The approved organizer registry is in `backend/src/source-discovery.mjs`: Hong Kong Design Centre, Tai Kwun, PMQ, Hong Kong Arts Centre, DESIGN@HKG and Hong Kong Youth Arts Foundation.
+- Daily 07:00 Hong Kong-time Cron runs **organizer-link discovery only**. It does not rerun the unwanted bulk LCSD feed. Existing historical LCSD data remain stored but are not published in the app.
+- `GET /api/sources`: public registry of approved official listing sites.
+- `POST /admin/discover`: **ADMIN_TOKEN required**, scan only those six approved listings; store newly discovered URL candidates in existing D1 `activity_leads` with `review_status='pending'`, `organizer_verified=0`.
+- `GET /admin/leads`: **ADMIN_TOKEN required**, read 100 newest unreviewed official-page leads.
+- The discovery queue is private. **A link is not an event.** It must be checked for a real organizer, exact dates, venue, pricing and an official booking page before adding to the public curated list.
+- Social posts and Threads may be submitted as future leads only; no automatic publishing from social content.
+- Current nine curated event entries remain an **editorial static pilot**, not a daily synchronized full-Hong-Kong catalogue. Updating the frontend from reviewed leads needs an additional human approval/publication workflow.
+- Image URLs are never invented. Organizer imagery must be explicitly checked for authenticity and permitted reuse, and a blocked/missing image has a text-only fallback.
+
+### Admin-only discovery smoke test (from your own site DevTools)
+
+```js
+(async()=>{
+  const token=prompt('ADMIN_TOKEN'); if(!token)return;
+  const r=await fetch('/admin/discover',{method:'POST',headers:{Authorization:'Bearer '+token}});
+  console.log(r.status,await r.json());
+})();
+```
+
+The results show `new_leads` and a per-source scan status, **not** newly published events.
+Do not paste your token into the repository, screenshots or chat.
