@@ -13,7 +13,8 @@
 - After two complete healthy syncs without a previously listed event, hide it; never fabricate cancellations.
 - Expire past occurrences. Record all sync attempts and failures.
 - Cloudflare Cron set for 23:00 UTC = 07:00 Hong Kong time (next day).
-- GET `/api/events?from=2026-11-14&to=2026-11-15&limit=40&q=...` and GET `/api/health`.
+- GET `/api/events?from=2026-11-14&to=2026-11-15&limit=40&offset=0&q=...` and GET `/api/health`.
+- Official activity endpoint is read-only and paginated (maximum 100 rows per request). Health reports last successful sync and whether the newest sync is less than 48 hours old.
 - Admin-only POST `/admin/sync` with `Authorization: Bearer <ADMIN_TOKEN>`.
 
 ## Actual deployment checklist

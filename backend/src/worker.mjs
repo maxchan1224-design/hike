@@ -63,21 +63,29 @@ async function listEvents(url,db) {
   const to=url.searchParams.get('to')||addDays(today,30);
   if(!matchDay(from)||!matchDay(to)||to<from||to>addDays(from,90)) return fail('Date range must be valid and at most 90 days',400);
   const limit=Math.max(1,Math.min(100,Number.parseInt(url.searchParams.get('limit')||'40',10)||40));
+  const offset=Math.max(0,Math.min(20000,Number.parseInt(url.searchParams.get('offset')||'0',10)||0));
   const search=(url.searchParams.get('q')||'').trim().slice(0,80);
   const keyword=search?'%'+search.replace(/[\\%_]/g,'\\$&')+'%':'';
   const sql=`SELECT e.id,e.title,e.title_en,e.description,e.category,e.venue,e.organizer,e.price,e.date_text,e.time_text,e.event_url,e.image_url,e.source,e.verification,e.updated_at,d.day
     FROM event_dates d JOIN events e ON d.event_id=e.id
     WHERE e.visibility='verified' AND e.verification='official_feed' AND d.day>=? AND d.day<=?
     ${search?"AND (e.title LIKE ? ESCAPE '\\' OR e.venue LIKE ? ESCAPE '\\' OR e.description LIKE ? ESCAPE '\\')":''}
-    ORDER BY d.day ASC,e.title ASC LIMIT ?`;
-  const values=search?[from,to,keyword,keyword,keyword,limit]:[from,to,limit];
+    ORDER BY d.day ASC,e.title ASC,e.id ASC LIMIT ? OFFSET ?`;
+  const values=search?[from,to,keyword,keyword,keyword,limit,offset]:[from,to,limit,offset];
   const rows=(await db.prepare(sql).bind(...values).all()).results||[];
-  return json({ok:true,events:rows,count:rows.length,from,to,source:'LCSD official programme feed',scope:'This is not yet all Hong Kong activities.'});
+  return json({ok:true,events:rows,count:rows.length,offset,next_offset:rows.length===limit?offset+limit:null,from,to,source:'LCSD official programme feed',scope:'This is not yet all Hong Kong activities.'});
 }
 async function health(db) {
-  const r=await db.prepare('SELECT source,started_at,finished_at,status,parsed_events,published_events,error FROM sync_runs ORDER BY id DESC LIMIT 1').first();
-  return json({ok:true,live:r?.status==='success',last_sync:r||null,notice:'No live data until Cloudflare D1 is created, migrated, and the Worker is deployed.'});
+  const latest=await db.prepare('SELECT source,started_at,finished_at,status,parsed_events,published_events,error FROM sync_runs ORDER BY id DESC LIMIT 1').first();
+  const lastSuccess=await db.prepare("SELECT finished_at,published_events FROM sync_runs WHERE status='success' ORDER BY id DESC LIMIT 1").first();
+  const rows=await db.prepare("SELECT COUNT(*) AS n FROM events WHERE visibility='verified' AND verification='official_feed'").first();
+  const age=lastSuccess?.finished_at?Date.now()-Date.parse(lastSuccess.finished_at):Infinity;
+  // "live" only when a successful update was recent and the latest attempt is not failing.
+  const fresh=latest?.status==='success'&&Number.isFinite(age)&&age>=0&&age<48*3600*1000;
+  return json({ok:true,live:Boolean(fresh),last_sync:latest||null,last_success:lastSuccess||null,verified_events:rows?.n||0,
+    notice:fresh?'Official LCSD data synchronized. This does not indicate real-time ticket availability.':'Official data may be missing or stale; check status before relying on it.'});
 }
+
 export default {
   async fetch(req,env) {
     if(!env.DB)return fail('Database not configured',503);
