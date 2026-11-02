@@ -76,6 +76,19 @@ async function listEvents(url,db) {
   return json({ok:true,events:rows,count:rows.length,offset,next_offset:rows.length===limit?offset+limit:null,from,to,source:'LCSD official programme feed',scope:'This is not yet all Hong Kong activities.'});
 }
 async function health(db) {
+  // A newly created D1 database is empty until its SQL migration is applied.
+  // Explain missing tables without exposing SQL exception text or secrets.
+  const required=['events','event_dates','sync_runs','activity_leads'];
+  const rows=(await db.prepare(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('events','event_dates','sync_runs','activity_leads')"
+  ).all()).results||[];
+  const existing=new Set(rows.map(row=>row.name));
+  const missing=required.filter(name=>!existing.has(name));
+  if(missing.length) return json({
+    ok:false,live:false,error:'database_schema_incomplete',
+    message:'D1 binding is active but required tables are missing. Apply backend/migrations/0001_init.sql to the D1 database bound as DB.',
+    missing_tables:missing
+  },503);
   const latest=await db.prepare('SELECT source,started_at,finished_at,status,parsed_events,published_events,error FROM sync_runs ORDER BY id DESC LIMIT 1').first();
   const lastSuccess=await db.prepare("SELECT finished_at,published_events FROM sync_runs WHERE status='success' ORDER BY id DESC LIMIT 1").first();
   const rows=await db.prepare("SELECT COUNT(*) AS n FROM events WHERE visibility='verified' AND verification='official_feed'").first();
@@ -99,7 +112,15 @@ export default {
         return json(await syncLCSD(env));
       }
       return fail('Not found',404);
-    }catch(e){console.error('API error',String(e));return fail('Temporary service error',503)}
+    }catch(e){
+      console.error('API error',{path:url.pathname,message:String(e?.message||e),cause:String(e?.cause?.message||'')});
+      const message=String(e?.message||'')+' '+String(e?.cause?.message||'');
+      if (/no such table|no such column/i.test(message)) return json({
+        ok:false,error:'database_schema_mismatch',
+        message:'D1 table or column is missing. Verify SQL schema in Cloudflare D1 Console and apply the matching migration.'
+      },503);
+      return fail('Temporary service error',503);
+    }
   },
   async scheduled(controller,env,ctx) { await syncLCSD(env,new Date(controller.scheduledTime||Date.now())); }
 };
