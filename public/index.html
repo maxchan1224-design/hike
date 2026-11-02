@@ -47,9 +47,56 @@
 .sheet-photo{height:190px;background:#f3f3ef;overflow:hidden}
 .sheet-photo img{width:100%;height:100%;object-fit:cover;display:block}
 @media(max-width:370px){.quickbtn{padding:7px 8px}.event.text-only{padding:13px}}
-.list-day{font-weight:900;color:#254c3d}.event.text-only .eventtop{line-height:1.6}</style></head><body><div class="app">
+.list-day{font-weight:900;color:#254c3d}.event.text-only .eventtop{line-height:1.6}
+/* DAYCATION 0.6 | Editorial ticket layout, designed for events without photos */
+.event.ticket-card{display:block;padding:0;border:1px solid #e5e8dd;border-radius:17px;overflow:hidden;background:#fff;min-height:0;box-shadow:0 2px 9px rgba(34,52,41,.035);--ac:#3f7760;--tint:#e8f3ea}
+.tone-art{--ac:#9a6379!important;--tint:#f5eaf0!important}
+.tone-music{--ac:#586d9c!important;--tint:#e9eef9!important}
+.tone-festival{--ac:#b77948!important;--tint:#faefe2!important}
+.tone-workshop{--ac:#4a8175!important;--tint:#e5f3ef!important}
+.tone-food{--ac:#ac7540!important;--tint:#fbf1e3!important}
+.ticket-topline{padding:12px 13px 3px;display:flex;align-items:center;gap:8px;min-height:31px}
+.ticket-category{font-size:10px;letter-spacing:.035em;font-weight:900;background:var(--tint);color:var(--ac);border-radius:20px;padding:4px 9px}
+.ticket-schedule{font-weight:800;font-size:10px;color:#6c786f;flex:1}
+.ticket-fav{border:none;background:transparent;color:#6d8c80;font-size:24px;line-height:1;padding:0 2px;min-width:29px;cursor:pointer}
+.ticket-fav.is-saved{color:#d36a66}
+.ticket-main{padding:5px 13px 13px;display:flex;gap:13px;min-width:0}
+.ticket-visual{border:0;position:relative;flex:0 0 79px;width:79px;height:92px;align-self:stretch;min-height:92px;overflow:hidden;background:var(--tint);border-radius:11px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:5px 3px;cursor:pointer}
+.ticket-datecore{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.02;color:var(--ac);height:100%;width:100%}
+.ticket-date-eyebrow{font-size:6.5px;letter-spacing:.055em;font-weight:900;opacity:.9;margin-bottom:4px}
+.ticket-datecore strong{font-size:36px;letter-spacing:-.085em;font-weight:900;font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums}
+.ticket-date-month{font-size:11px;font-weight:900;letter-spacing:.13em;margin-top:4px}
+.ticket-photo{position:absolute;width:100%;height:100%;inset:0;object-fit:cover}
+.ticket-visual.has-image:not(.image-failed) .ticket-datecore{display:none}
+.ticket-info{min-width:0;flex:1;padding-top:1px}
+.ticket-provider{font-size:10px;line-height:1.45;font-weight:800;color:#477c66;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticket-title{display:block;text-align:left;cursor:pointer;color:#172721;border:0;background:transparent;font-weight:900;font-size:15.5px;letter-spacing:-.025em;line-height:1.35;padding:2px 0 4px;width:100%;overflow-wrap:anywhere}
+.ticket-title:hover{text-decoration:underline;text-decoration-color:#c6d6ca}
+.ticket-description{font-size:11.5px;line-height:1.48;color:#68766d;margin:1px 0 6px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.ticket-place{color:#65786c;font-size:10px;line-height:1.4;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticket-actions{display:flex;align-items:center;gap:9px;border-top:1px dashed #e6e8e3;padding:10px 13px 11px;min-height:45px}
+.ticket-price{font-size:13px;font-weight:900;color:#245f47}
+.ticket-detail{background:transparent;color:#5c7567;border:none;font-size:10.5px;font-weight:850;padding:7px 3px;margin-left:auto}
+.ticket-add{border:0;border-radius:9px;background:#e4efe7;color:#24513b;font-size:11px;font-weight:900;padding:8px 10px;white-space:nowrap}
+.rec-flex .ticket-visual{flex:0 0 85px;width:85px;height:106px}
+.rec-card{--ac:#4b7167;--tint:#e8f3ea}
+.rec-card .ticket-provider{margin:1px 0 3px}
+.ticket-sheet-intro{--ac:#497967;--tint:#e9f2e8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:var(--tint);padding:12px 18px;color:var(--ac)}
+.ticket-sheet-intro span{font-weight:900;font-size:11px}
+.ticket-sheet-intro strong{font-weight:900;font-size:12px}
+.ticket-sheet-intro small{font-weight:800;font-size:10px;margin-left:auto}
+@media(max-width:370px){
+ .ticket-main{gap:10px;padding:4px 11px 11px}
+ .ticket-visual{flex-basis:68px;width:68px;height:88px}
+ .ticket-datecore strong{font-size:31px}
+ .ticket-topline{padding-left:11px;padding-right:11px}
+ .ticket-actions{padding:9px 11px}
+ .ticket-title{font-size:14px}
+ .ticket-description{font-size:11px}
+}
+</style></head><body><div class="app">
 <div class="top"><div class="brandline"><div class="logotype"><span class="logo">✳</span> DAYCATION<span class="logodot">.</span>HK</div><div class="avatar">☼</div></div></div>
-<section id="explore" class="screen active"><div class="hero"><div class="tinycap eyebrow">DAYCATION 0.5 · PHOTO-OPTIONAL PICKS</div><h1>香港好玩，<br>唔使離境。</h1><p>搜尋日期、地區同興趣，揀啱先收藏，再砌成你嘅 Day Trip。</p><div class="hero-art"><div class="mini-sun"></div><div class="mini-hill"></div><div class="mini-city"></div><div class="mini-water"></div></div><span class="herostamp">LOCAL<br>EXPLORER<br>香港</span></div>
+<section id="explore" class="screen active"><div class="hero"><div class="tinycap eyebrow">DAYCATION 0.6 · EDITORIAL ACTIVITY CARDS</div><h1>香港好玩，<br>唔使離境。</h1><p>搜尋日期、地區同興趣，揀啱先收藏，再砌成你嘅 Day Trip。</p><div class="hero-art"><div class="mini-sun"></div><div class="mini-hill"></div><div class="mini-city"></div><div class="mini-water"></div></div><span class="herostamp">LOCAL<br>EXPLORER<br>香港</span></div>
 <div class="main"><div class="sectionhead"><div><div class="tinycap">ALL ACTIVITIES · 全港活動</div><h2>全部活動</h2></div><small>主辦方核實 · 精選</small></div><div class="searchrow"><div class="searchbox"><span>⌕</span><input type="search" id="search" placeholder="搜尋活動、地區、興趣…" aria-label="搜尋活動"></div><select id="region" class="regionsel" aria-label="選擇地區"><option value="all">全香港</option><option>港島</option><option>九龍</option><option>新界</option></select></div><div id="datefilters" class="chips"><button class="chip active" data-day="all">即將舉行</button><button class="chip" data-day="weekend">今個週末</button><button class="chip" data-day="7d">7 日內</button><button class="chip" data-day="free">免費活動</button></div><div id="categories" class="chips" style="margin-top:-8px"><button class="chip active" data-cat="all">全部類型</button><button class="chip" data-cat="藝術">藝術展覽</button><button class="chip" data-cat="音樂">音樂</button><button class="chip" data-cat="節慶">市集／節慶</button><button class="chip" data-cat="體驗">體驗班</button><button class="chip" data-cat="美食">美食</button></div>
 <div id="featured" class="featured" role="group" aria-label="特別推介"><div class="featureimage"></div><div class="featurecontent"><span class="label">✦ EDITOR'S PICK · FREE</span><h3>BREATHE<br>WITH ME</h3><p>山頂五感沉浸展 · 11–24 NOV<br>將香港的半天留畀自己。</p><button id="featureButton">睇活動詳情 →</button></div></div>
 <div id="liveStatus" class="live-status" role="status" aria-live="polite"><strong>主辦方核實精選</strong>已對照官方公告；資料目前仍須人工更新。</div><div class="sectionhead"><h2>活動一覽 <span id="eventCount" class="mini-count">11</span></h2><button class="lookmore" id="resetFilter">清除篩選 ↗</button></div><div class="eventlist" id="exploreEvents"></div><button id="loadMoreExplore" class="show-more" type="button" hidden>顯示更多活動 ↓</button><div class="footer-note">只展示直接對照主辦方官方公告的活動；精選仍未涵蓋全港、尚未自動更新。社交帖文只用作發現線索，出發前應再次核對官方時間及票務。</div></div></section>
@@ -101,12 +148,42 @@ function photoURL(e) {
   try { const u=new URL(raw); return u.protocol==='https:'&&e.photoVerified===true?u.href:''; }
   catch {return ''}
 }
-function photoTile(e,kind='event') {
-  const url=photoURL(e);
-  if(!url)return '';
-  return `<button type="button" class="thumb photo-tile ${kind==='rec'?'rec-art':''}" onclick="detail('${e.id}')" aria-label="查看 ${esc(e.name)}"><img src="${esc(url)}" loading="lazy" alt="${esc(e.name)} 活動照片" referrerpolicy="no-referrer" onerror="this.closest('button').remove()" /><span class="daymark">${esc(e.dateDisplay)}</span></button>`;
+function ticketAccent(e) {
+  const table={'藝術':'art','音樂':'music','節慶':'festival','體驗':'workshop','美食':'food'};
+  return table[e.category]||'other';
 }
-function card(e){const save=state.saved.includes(e.id);const hasPhoto=Boolean(photoURL(e));return `<article class="event ${hasPhoto?'has-photo':'text-only'}">${photoTile(e)}<div class="eventbody"><div class="eventtop"><span class="list-day">${esc(e.dateDisplay)}</span> · ${e.officialFeed?'<span class="verified-text">✓ '+esc(e.provider||'官方主辦方')+'</span>':'<span class="sample-text">示範</span>'} · ${esc(e.region)} · ${esc(e.district)} · ${esc(e.start||"時間見詳情")}</div><div class="eventname" onclick="detail('${e.id}')" style="cursor:pointer">${esc(e.name)}</div><div class="eventdesc">${esc(e.description)}</div><div class="eventbottom"><span class="cost">${esc(e.price)}</span><button class="quickbtn" onclick="pickEvent('${e.id}')">＋ 加入行程</button><button class="heart ${save?'on':''}" aria-label="${save?'取消':'加入'}收藏" onclick="saveEvent('${e.id}')">${save?'♥':'♡'}</button></div></div></article>`}
+function ticketDate(e) {
+  const label=String(e.dateDisplay||'活動日期見詳情');
+  const month=(label.match(/\b(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\b/i)||[])[0]||'';
+  const first=(label.match(/\d{1,2}/)||[])[0]||'';
+  return {large:first||'—',month:month.toUpperCase(),label,ongoing:/^\s*至/.test(label)};
+}
+// The visual slot always communicates the DATE. An approved real photo may replace it.
+// A failed photo immediately falls back to this date panel; never an arbitrary icon.
+function photoTile(e,kind='event') {
+  const photo=photoURL(e);
+  const d=ticketDate(e);
+  return \`<button type="button" class="ticket-visual \${photo?'has-image':''} \${kind==='rec'?'rec-art':''}" onclick="detail('\${e.id}')" aria-label="查看\${esc(e.name)}詳情，日期\${esc(d.label)}">
+    <span class="ticket-datecore"><span class="ticket-date-eyebrow">\${d.ongoing?'EXHIBITION UNTIL':'EVENT DATE'}</span><strong>\${esc(d.large)}</strong><span class="ticket-date-month">\${esc(d.month)}</span></span>
+    \${photo?'<img class="ticket-photo" src="'+esc(photo)+'" loading="lazy" alt="'+esc(e.name)+'官方活動照片" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\\'image-failed\\');this.remove()">':''}
+  </button>\`;
+}
+function card(e) {
+  const save=state.saved.includes(e.id);
+  const provider=e.provider||'官方主辦方';
+  return \`<article class="event ticket-card tone-\${ticketAccent(e)}">
+    <div class="ticket-topline"><span class="ticket-category">\${esc(e.category||'活動')}</span><span class="ticket-schedule">\${esc(e.dateDisplay||'日期見詳情')}</span><button type="button" class="ticket-fav \${save?'is-saved':''}" aria-label="\${save?'取消收藏':'收藏活動'}" onclick="saveEvent('\${e.id}')">\${save?'♥':'♡'}</button></div>
+    <div class="ticket-main">\${photoTile(e)}
+      <div class="ticket-info">
+        <div class="ticket-provider">✓ \${esc(provider)}</div>
+        <button type="button" class="ticket-title" onclick="detail('\${e.id}')">\${esc(e.name)}</button>
+        <p class="ticket-description">\${esc(e.description)}</p>
+        <div class="ticket-place">\${esc(e.district||'香港')} · \${esc(e.loc||'地點見官方')}</div>
+      </div>
+    </div>
+    <div class="ticket-actions"><span class="ticket-price">\${esc(e.price||'票價見官方')}</span><button type="button" class="ticket-detail" onclick="detail('\${e.id}')">活動詳情</button><button type="button" class="ticket-add" onclick="pickEvent('\${e.id}')">＋ 加入行程</button></div>
+  </article>\`;
+}
 function matchesDateFilter(e,mode){
  const today=hkDay(),dates=e.date||[];
  if(mode==='all')return dates.some(d=>d>=today);
@@ -134,7 +211,7 @@ function saveEvent(id){state.saved=state.saved.includes(id)?state.saved.filter(x
 document.querySelectorAll('#datefilters .chip').forEach(b=>b.onclick=()=>{dayFilter=b.dataset.day;exploreLimit=8;document.querySelectorAll('#datefilters .chip').forEach(x=>x.classList.toggle('active',x===b));drawExplore()});document.querySelectorAll('#categories .chip').forEach(b=>b.onclick=()=>{catFilter=b.dataset.cat;exploreLimit=8;document.querySelectorAll('#categories .chip').forEach(x=>x.classList.toggle('active',x===b));drawExplore()});$('search').addEventListener('input',e=>{search=e.target.value;exploreLimit=8;drawExplore()});$('region').addEventListener('change',e=>{region=e.target.value;exploreLimit=8;drawExplore()});$('resetFilter').onclick=()=>{exploreLimit=8;dayFilter='all';catFilter='all';search='';region='all';$('search').value='';$('region').value='all';document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',b.dataset.day==='all'||b.dataset.cat==='all'));drawExplore()};$('featureButton').onclick=()=>detail('breathe');
 function openSheet(s){$('sheetContent').innerHTML=s;$('shade').classList.add('show');$('sheet').classList.add('open');document.body.style.overflow='hidden'}function closeSheet(){$('shade').classList.remove('show');$('sheet').classList.remove('open');document.body.style.overflow=''}$('closeSheet').onclick=closeSheet;$('shade').onclick=closeSheet;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
 function googleCalendarURL(title,date,start,end,location,description){const q=new URLSearchParams({action:'TEMPLATE',text:title,dates:date.replaceAll('-','')+'T'+start.replace(':','')+'00/'+date.replaceAll('-','')+'T'+end.replace(':','')+'00',ctz:'Asia/Hong_Kong',details:description||'',location:location||''});return 'https://calendar.google.com/calendar/render?'+q.toString()}
-function detail(id){const e=EVENTS.find(x=>x.id===id);if(!e)return;if(e.officialFeed)return officialDetail(e);currentEvent=id;const date=e.date[0];const map='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(e.map);openSheet(`${photoURL(e)?'<div class="sheet-photo"><img src="'+esc(photoURL(e))+'" alt="'+esc(e.name)+'" onerror="this.closest(\'.sheet-photo\').remove()"></div>':''}<div class="sheet-content"><div class="tinycap">${esc(e.category)} · ${esc(e.district)} · ${esc(e.dateDisplay)}</div><h2>${esc(e.name)}</h2><div class="data-pills"><span>◷ ${esc(e.start)}–${esc(e.end)}</span><span>⌖ ${esc(e.loc)}</span><span>${esc(e.price)}</span></div><p style="font-weight:700;color:var(--ink)">${esc(e.description)}</p><div class="sheet-section"><h3>呢個活動玩啲咩？</h3><p>${esc(e.detail)}</p></div><div class="sheet-section"><h3>活動資料</h3><p>日期：${esc(e.dateDisplay)}<br>地點：${esc(e.loc)}<br>入場：${esc(e.price)}</p><div class="rowbuttons" style="margin-top:12px"><a class="source-link" target="_blank" rel="noopener" href="${esc(e.source)}">主辦方／訂票詳情 ↗</a><a class="source-link" target="_blank" rel="noopener" href="${map}">地圖 ↗</a></div></div><div class="rowbuttons" style="margin-top:18px"><button class="bigbtn secondary" onclick="saveEvent('${id}')">♡ ${state.saved.includes(id)?'取消收藏':'收藏活動'}</button><button class="bigbtn" onclick="pickEvent('${id}')">＋ 加入 Day Trip</button></div><div class="smallinfo">如想直接加入 Google Calendar，可使用 <a href="${googleCalendarURL(e.name,date,e.start,e.end,e.loc,e.description)}" target="_blank" rel="noopener">Google Calendar ↗</a>。</div></div>`)}
+function detail(id){const e=EVENTS.find(x=>x.id===id);if(!e)return;if(e.officialFeed)return officialDetail(e);currentEvent=id;const date=e.date[0];const map='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(e.map);openSheet(`<div class="ticket-sheet-intro tone-${ticketAccent(e)}"><span>${esc(e.category||'香港活動')}</span><strong>${esc(e.dateDisplay||'日期見詳情')}</strong><small>✓ ${esc(e.provider||'官方主辦方')}</small></div>${photoURL(e)?'<div class="sheet-photo"><img src="'+esc(photoURL(e))+'" alt="'+esc(e.name)+'" onerror="this.closest(\'.sheet-photo\').remove()"></div>':''}<div class="sheet-content"><div class="tinycap">${esc(e.category)} · ${esc(e.district)} · ${esc(e.dateDisplay)}</div><h2>${esc(e.name)}</h2><div class="data-pills"><span>◷ ${esc(e.start)}–${esc(e.end)}</span><span>⌖ ${esc(e.loc)}</span><span>${esc(e.price)}</span></div><p style="font-weight:700;color:var(--ink)">${esc(e.description)}</p><div class="sheet-section"><h3>呢個活動玩啲咩？</h3><p>${esc(e.detail)}</p></div><div class="sheet-section"><h3>活動資料</h3><p>日期：${esc(e.dateDisplay)}<br>地點：${esc(e.loc)}<br>入場：${esc(e.price)}</p><div class="rowbuttons" style="margin-top:12px"><a class="source-link" target="_blank" rel="noopener" href="${esc(e.source)}">主辦方／訂票詳情 ↗</a><a class="source-link" target="_blank" rel="noopener" href="${map}">地圖 ↗</a></div></div><div class="rowbuttons" style="margin-top:18px"><button class="bigbtn secondary" onclick="saveEvent('${id}')">♡ ${state.saved.includes(id)?'取消收藏':'收藏活動'}</button><button class="bigbtn" onclick="pickEvent('${id}')">＋ 加入 Day Trip</button></div><div class="smallinfo">如想直接加入 Google Calendar，可使用 <a href="${googleCalendarURL(e.name,date,e.start,e.end,e.loc,e.description)}" target="_blank" rel="noopener">Google Calendar ↗</a>。</div></div>`)}
 function pickEvent(id){const e=EVENTS.find(x=>x.id===id);if(!e)return;if(e.officialFeed)return officialPick(e);currentEvent=id;let valid=state.trips.filter(t=>e.date.includes(t.date));const choices=valid.map(t=>`<option value="${esc(t.id)}">${esc(dateText(t.date))} · ${esc(t.title)}</option>`).join('');const dateopts=e.date.map(d=>`<option value="${d}">${dateText(d)}</option>`).join('');const defaultStart=e.id==='breathe'?'17:30':e.id==='choco'?'17:10':e.start;
 openSheet(`<div class="sheet-content"><div class="tinycap">ADD TO YOUR ADVENTURE</div><h2>加入 Day Trip</h2><p><b>${esc(e.name)}</b><br>請選擇要加入邊一日及預計到訪時間。</p><label for="pickTrip">Day Trip</label><select id="pickTrip">${choices}</select><label for="newDate">如果冇合適 Day Trip，可揀日期</label><select id="newDate"><option value="">使用以上 Day Trip</option>${dateopts}</select><label for="pickStart">預計開始時間</label><input type="time" id="pickStart" value="${defaultStart}"><div class="smallinfo">活動時段 ${esc(e.start)}–${esc(e.end)}。開放型展覽可自訂到訪時間；固定表演仍須在指定時段出席。</div><div class="rowbuttons" style="margin-top:20px"><button class="bigbtn" id="confirmAdd">加入行程 →</button></div></div>`);
 const ss=$('pickTrip');ss.disabled=valid.length===0;if(valid.length){ss.value=(valid.find(t=>t.date===e.dateStart)||valid[0]).id;} if(!valid.length){ss.innerHTML='<option value="">先建立新 Day Trip</option>';$('newDate').value=e.date[0];} $('confirmAdd').onclick=()=>{let t;const custom=$('newDate').value;if(custom){t=state.trips.find(x=>x.date===custom);if(!t){t={id:'trip-'+Date.now(),date:custom,title:dateText(custom)+' 城市漫遊',subtitle:'My Day Trip',stops:[]};state.trips.push(t)}}else t=state.trips.find(x=>x.id===ss.value);if(!t){toast('請先選一個日期');return};const start=$('pickStart').value;if(!start){toast('請輸入時間');return};if(t.stops.some(s=>s.eventId===id)){toast('已經加入呢個 Day Trip');return};const [hh,mm]=start.split(':').map(Number);const x=hh*60+mm+e.duration;const end=`${String(Math.floor(x/60)%24).padStart(2,'0')}:${String(x%60).padStart(2,'0')}`;t.stops.push({id:'custom-'+Date.now(),eventId:id,title:e.name,start,end,place:e.loc,fixed:false,notes:'未訂票／未確定參加'});t.stops.sort((a,b)=>a.start.localeCompare(b.start));persist();closeSheet();drawTrips();show('trips');toast('已加入「'+t.title+'」');}}
@@ -169,7 +246,17 @@ function recommendations(){return EVENTS.filter(e=>!state.ignored.includes(e.id)
  score+=((i+suggestionShift)%EVENTS.length)*.07;
  const reason=state.saved.includes(e.id)?'你已收藏呢個活動':similar.length?'同你收藏嘅活動類型相近':matched.length?'符合你鍾意嘅 '+matched.map(t=>INTERESTS.find(x=>x[0]===t)?.[1]||t).join('、'):e.priceN===0?'免費體驗，適合探索新興趣':'換個方向試吓嘅新體驗';return {e,score,reason}})
  .sort((a,b)=>b.score-a.score)}
-function recCard({e,reason}){const isSaved=state.saved.includes(e.id);return `<article class="rec-card"><div class="rec-kicker"><span>WHY THIS MATCHES</span><span>${esc(e.dateDisplay)}</span></div><div class="rec-reason">${esc(reason)}</div><div class="rec-flex">${photoTile(e,'rec')}<div class="rec-body"><h3 onclick="detail('${e.id}')">${esc(e.name)}</h3><p>${esc(e.description)}</p><div class="rec-meta">⌖ ${esc(e.district)} · ${esc(e.start||'時間見官方')} · ${esc(e.price)}</div></div></div><div class="rec-actions"><button onclick="skipSuggestion('${e.id}')">⊘ 唔啱我</button><button onclick="saveEvent('${e.id}')">${isSaved?'♥ 已收藏':'♡ 收藏'}</button><button class="rec-add" onclick="pickEvent('${e.id}')">＋ 排入行程</button></div></article>`}
+function recCard({e,reason}) {
+ const saved=state.saved.includes(e.id);
+ return \`<article class="rec-card tone-\${ticketAccent(e)}"><div class="rec-kicker"><span>✦ 可能適合你</span><span>\${esc(e.dateDisplay)}</span></div>
+  <div class="rec-reason">\${esc(reason)}</div>
+  <div class="rec-flex">\${photoTile(e,'rec')}<div class="rec-body">
+    <div class="ticket-provider">✓ \${esc(e.provider||'官方主辦方')}</div>
+    <h3 onclick="detail('\${e.id}')">\${esc(e.name)}</h3><p>\${esc(e.description)}</p>
+    <div class="rec-meta">\${esc(e.district)} · \${esc(e.price)}</div>
+  </div></div>
+  <div class="rec-actions"><button onclick="skipSuggestion('\${e.id}')">唔啱我</button><button onclick="saveEvent('\${e.id}')">\${saved?'♥ 已收藏':'♡ 收藏'}</button><button class="rec-add" onclick="pickEvent('\${e.id}')">＋ 排入行程</button></div></article>\`;
+}
 function drawSuggestions(){
  $('moodchips').innerHTML=MOODS.map(([id,label])=>`<button class="chip ${suggestionMood===id?'active':''}" data-mood="${id}" onclick="setMood('${id}')">${label}</button>`).join('');
  $('suggestDate').value=suggestionDate;
