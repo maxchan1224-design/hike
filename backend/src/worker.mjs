@@ -79,10 +79,10 @@ async function health(db) {
   // A newly created D1 database is empty until its SQL migration is applied.
   // Explain missing tables without exposing SQL exception text or secrets.
   const required=['events','event_dates','sync_runs','activity_leads'];
-  const rows=(await db.prepare(
+  const schemaRows=(await db.prepare(
     "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('events','event_dates','sync_runs','activity_leads')"
   ).all()).results||[];
-  const existing=new Set(rows.map(row=>row.name));
+  const existing=new Set(schemaRows.map(row=>row.name));
   const missing=required.filter(name=>!existing.has(name));
   if(missing.length) return json({
     ok:false,live:false,error:'database_schema_incomplete',
