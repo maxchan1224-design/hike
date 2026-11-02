@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "daycation-hk-events",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-11-02",
+  "observability": {"enabled": true},
+  "triggers": {"crons": ["0 23 * * *"]},
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "daycation-hk-events",
+      "database_id": "REPLACE_WITH_ID_FROM_WRANGLER_D1_CREATE",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
