@@ -1,42 +1,34 @@
-# DAYCATION HK · 香港當旅行
+# DAYCATION HK — 香港本地 Day Trip Explorer
 
-**One repository, one existing Cloudflare Worker.** The GitHub repository remains named `hike`, and the Cloudflare Worker remains named `hike` (`hike.maxchan1224.workers.dev`). There is **no separate** `daycation-hk-events` Worker. That string is only the **D1 database name**.
+The **GitHub repository and Cloudflare Worker remain named `hike`**. No rename is planned.
 
-## Product
-- iPhone-first app with five tabs: 全部活動 / AI 推薦 / 收藏 / 行程 / 個人化.
-- Save activities, build local day trips, tune preferences. No .ics export.
-- Personalised recommendations are **on-device rules**, not a live AI model.
-- Historical sample activities remain clearly marked as demos and are not current listings.
+## Product experience
 
-## Architecture
-- `public/`: web app and static assets.
-- `src/worker.mjs`: routes `/api/*` and `/admin/*` to the activity backend, serves assets otherwise.
-- `backend/src/`: official LCSD XML feed normalisation and D1 API.
-- `backend/migrations/`: D1 database schema.
-- `wrangler.jsonc`: **root configuration targeting existing Worker `hike`**, binding `DB` to `daycation-hk-events` D1.
-- `public/data-config.js`: same-origin API connection; no second-worker URL.
-- A daily UTC 23:00 Cron trigger means 07:00 Hong Kong time.
+- Five tabs: 全部活動 / AI 推薦 / 收藏 / 行程 / 個人化.
+- iPhone-first summary cards with date, location, admission, organizer, save and add-to-trip.
+- All Activities defaults to upcoming events, filtering by nearest weekend / 7 days / free / region / interest category / text.
+- Eight activities per page; choose "顯示更多" to reveal the next eight.
+- Saved activities, personal interests and day trips are kept in browser local storage.
+- Recommendations currently use **local preference-matching**, not generative AI.
 
-## Deploy to existing `hike` Worker
-From the repository **root** (not `backend/`):
+## Data policy — source first, not volume first
 
-```bash
-npm install
-npm test
-npx wrangler d1 migrations apply daycation-hk-events --remote
-npx wrangler deploy
-```
+The site deliberately **does not show the 803 bulk-imported LCSD cultural programmes**. Their records remain in D1 for now but are not mixed with the public curated feed.
 
-If using Cloudflare's GitHub integration, set **Root directory = repository root**, not `backend`; deploy command `npx wrangler deploy`. **Apply the D1 migration before relying on the API.** Confirm the D1 database ID in the root config matches your own database. A manual migration may also be run in the Cloudflare D1 SQL editor using `backend/migrations/0001_init.sql`.
+The initial curated list in `public/curated-activities.js` contains nine organizer-verified event entries checked against organizer pages on 2026-11-02. This is a **static editorial pilot**, not a continuously updated, exhaustive or real-time calendar. Each event links to organizer evidence, and schedules, booking and ticket availability must be checked again before a visit.
 
-Do not create another Worker. Publishing to `hike` intentionally replaces the website served by that existing Worker. GitHub repository name stays `hike`.
+Prioritize Tai Kwun, WestK, PMQ, HKDC, HKEYAF, venues, classes and independent organizers. Timable, art-mate, Eventbrite, Threads, Instagram, Facebook and Xiaohongshu are **discovery leads only**. Publication requires corroboration from the official organizer website/account or confirmed ticketing channel. Do not invent event details.
 
-After migration/deploy:
-- `https://hike.maxchan1224.workers.dev/`: DAYCATION HK app.
-- `https://hike.maxchan1224.workers.dev/api/health`: D1 / data freshness check; `live:false` before successful sync is expected.
-- `https://hike.maxchan1224.workers.dev/api/events`: only verified official future events.
-- `POST /admin/sync`: optional manual sync; requires separately configured Cloudflare secret `ADMIN_TOKEN` (never put it in GitHub or chat). Otherwise wait for the daily Cron.
+The D1 LCSD database remains bound to the existing `hike` Worker but the **scheduled importer has been explicitly disabled** in the root `wrangler.jsonc` by `triggers.crons: []`. This removes the nightly LCSD refresh at next successful deployment without deleting D1 tables or records. The older `/admin/sync` manual endpoint should not be used for the public curated catalogue; it is not connected to that catalogue.
 
-A healthy `/api/health` response does **not** guarantee the official feed was synced. The backend has not yet passed a real-feed end-to-end import in this environment; validate official programme fields and sync logs before relying on results.
+## Future implementation
 
-Social media posts (including Threads and Instagram) remain **discovery leads only**, not public activities without independent organizer confirmation. The current API covers LCSD cultural programmes, not all Hong Kong activities.
+1. Build source registry of official organizers, verified profile URLs and update policies.
+2. Discovery -> pending lead -> organizer corroboration -> approved activity -> periodic revalidation/expiry.
+3. Publish only verified events via D1 paginated API and show last verified time / source links in UI.
+4. Personalized ranking on only verified, future events; transit-aware itinerary planning later.
+
+## Deploy
+The root configuration targets the existing Worker named `hike` and serves `public/` plus API. Normal deployment remains `npx wrangler deploy` from repo root.
+
+The former website and sample weekend trips are still present in local demo history but are not mixed into the new curated public list. No .ics export.
